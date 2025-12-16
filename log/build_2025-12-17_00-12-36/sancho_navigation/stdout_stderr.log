@@ -11,7 +11,7 @@ running build_py
 running install
 running install_lib
 running install_data
-copying config/nav2_params.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+copying maps/greenhouse_map.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
 running install_egg_info
 removing '/home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info' (and everything under it)
 Copying ../../build/sancho_navigation/sancho_navigation.egg-info to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info

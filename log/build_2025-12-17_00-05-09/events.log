@@ -1,0 +1,90 @@
+[0.000000] (-) TimerEvent: {}
+[0.001364] (sancho_navigation) JobQueued: {'identifier': 'sancho_navigation', 'dependencies': OrderedDict()}
+[0.001465] (sancho_navigation) JobStarted: {'identifier': 'sancho_navigation'}
+[0.097585] (-) TimerEvent: {}
+[0.210088] (-) TimerEvent: {}
+[0.310764] (-) TimerEvent: {}
+[0.411623] (-) TimerEvent: {}
+[0.513756] (-) TimerEvent: {}
+[0.614934] (-) TimerEvent: {}
+[0.716651] (-) TimerEvent: {}
+[0.823952] (-) TimerEvent: {}
+[0.931310] (-) TimerEvent: {}
+[0.979624] (sancho_navigation) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/sancho_navigation', 'build', '--build-base', '/home/gonzalo/gonzalo_ws/build/sancho_navigation/build', 'install', '--record', '/home/gonzalo/gonzalo_ws/build/sancho_navigation/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/gonzalo/gonzalo_ws/src/sancho_navigation', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'SVGA_VGPU10': '0', 'USER': 'gonzalo', 'XDG_SESSION_TYPE': 'wayland', 'SHLVL': '1', 'LIBGL_ALWAYS_SOFTWARE': '1', 'LD_LIBRARY_PATH': '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/gonzalo', 'OLDPWD': '/home/gonzalo', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '1352', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/gonzalo/install:/home/gonzalo/tfg_ws/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'gonzalo', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'gonzalo', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/home/gonzalo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/gonzalo-VirtualBox:@/tmp/.ICE-unix/1322,unix/gonzalo-VirtualBox:/tmp/.ICE-unix/1322', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/701ad571_1a6d_45e9_afe5_71b207c902d7', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'es_ES.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'RMW_IMPLEMENTATION': 'rmw_cyclonedds_cpp', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.ZDPPH3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.101', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/gonzalo/install/sancho_navigation:/home/gonzalo/tfg_ws/install/sancho_navigation:/opt/ros/humble', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/gonzalo/gonzalo_ws/build/sancho_navigation', 'TURTLEBOT3_MODEL': 'burger', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/gonzalo/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:/home/gonzalo/install/sancho_navigation/lib/python3.10/site-packages:/home/gonzalo/tfg_ws/install/sancho_navigation/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1', 'VTE_VERSION': '6800'}, 'shell': False}
+[1.032139] (-) TimerEvent: {}
+[1.139248] (-) TimerEvent: {}
+[1.294558] (-) TimerEvent: {}
+[1.300825] (sancho_navigation) StdoutLine: {'line': b'running egg_info\n'}
+[1.303363] (sancho_navigation) StdoutLine: {'line': b'creating ../../build/sancho_navigation/sancho_navigation.egg-info\n'}
+[1.303664] (sancho_navigation) StdoutLine: {'line': b'writing ../../build/sancho_navigation/sancho_navigation.egg-info/PKG-INFO\n'}
+[1.305384] (sancho_navigation) StdoutLine: {'line': b'writing dependency_links to ../../build/sancho_navigation/sancho_navigation.egg-info/dependency_links.txt\n'}
+[1.305461] (sancho_navigation) StdoutLine: {'line': b'writing entry points to ../../build/sancho_navigation/sancho_navigation.egg-info/entry_points.txt\n'}
+[1.305903] (sancho_navigation) StdoutLine: {'line': b'writing requirements to ../../build/sancho_navigation/sancho_navigation.egg-info/requires.txt\n'}
+[1.310722] (sancho_navigation) StdoutLine: {'line': b'writing top-level names to ../../build/sancho_navigation/sancho_navigation.egg-info/top_level.txt\n'}
+[1.311638] (sancho_navigation) StdoutLine: {'line': b"writing manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'\n"}
+[1.311865] (sancho_navigation) StdoutLine: {'line': b"reading manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'\n"}
+[1.311937] (sancho_navigation) StdoutLine: {'line': b"writing manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'\n"}
+[1.311988] (sancho_navigation) StdoutLine: {'line': b'running build\n'}
+[1.312052] (sancho_navigation) StdoutLine: {'line': b'running build_py\n'}
+[1.315451] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/build/sancho_navigation/build\n'}
+[1.316977] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib\n'}
+[1.317443] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation\n'}
+[1.317506] (sancho_navigation) StdoutLine: {'line': b'copying sancho_navigation/route_generator.py -> /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation\n'}
+[1.317559] (sancho_navigation) StdoutLine: {'line': b'copying sancho_navigation/__init__.py -> /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation\n'}
+[1.317834] (sancho_navigation) StdoutLine: {'line': b'copying sancho_navigation/greenhouse_navigator.py -> /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation\n'}
+[1.318060] (sancho_navigation) StdoutLine: {'line': b'running install\n'}
+[1.319018] (sancho_navigation) StdoutLine: {'line': b'running install_lib\n'}
+[1.323668] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation\n'}
+[1.324021] (sancho_navigation) StdoutLine: {'line': b'copying /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/route_generator.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation\n'}
+[1.324094] (sancho_navigation) StdoutLine: {'line': b'copying /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/__init__.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation\n'}
+[1.324153] (sancho_navigation) StdoutLine: {'line': b'copying /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/greenhouse_navigator.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation\n'}
+[1.324208] (sancho_navigation) StdoutLine: {'line': b'byte-compiling /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/route_generator.py to route_generator.cpython-310.pyc\n'}
+[1.324305] (sancho_navigation) StdoutLine: {'line': b'byte-compiling /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/__init__.py to __init__.cpython-310.pyc\n'}
+[1.324363] (sancho_navigation) StdoutLine: {'line': b'byte-compiling /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/greenhouse_navigator.py to greenhouse_navigator.cpython-310.pyc\n'}
+[1.324417] (sancho_navigation) StdoutLine: {'line': b'running install_data\n'}
+[1.324470] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index\n'}
+[1.324522] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index\n'}
+[1.324574] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages\n'}
+[1.324687] (sancho_navigation) StdoutLine: {'line': b'copying resource/sancho_navigation -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages\n'}
+[1.324758] (sancho_navigation) StdoutLine: {'line': b'copying package.xml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation\n'}
+[1.326685] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.326818] (sancho_navigation) StdoutLine: {'line': b'copying launch/nav2_route.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.326881] (sancho_navigation) StdoutLine: {'line': b'copying launch/simulation.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.327425] (sancho_navigation) StdoutLine: {'line': b'copying launch/navigation.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.327649] (sancho_navigation) StdoutLine: {'line': b'copying launch/slam.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.327713] (sancho_navigation) StdoutLine: {'line': b'copying launch/navigation_only.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.327767] (sancho_navigation) StdoutLine: {'line': b'copying launch/localization.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch\n'}
+[1.327818] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config\n'}
+[1.327886] (sancho_navigation) StdoutLine: {'line': b'copying config/my_route.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config\n'}
+[1.331735] (sancho_navigation) StdoutLine: {'line': b'copying config/nav2_params.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config\n'}
+[1.332366] (sancho_navigation) StdoutLine: {'line': b'copying config/mapper_params_online_async.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config\n'}
+[1.332464] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds\n'}
+[1.332524] (sancho_navigation) StdoutLine: {'line': b'copying worlds/greenhouse.world -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds\n'}
+[1.332578] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps\n'}
+[1.332629] (sancho_navigation) StdoutLine: {'line': b'copying maps/prueba.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps\n'}
+[1.333041] (sancho_navigation) StdoutLine: {'line': b'copying maps/greenhouse_map.pgm -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps\n'}
+[1.337486] (sancho_navigation) StdoutLine: {'line': b'copying maps/prueba.pgm -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps\n'}
+[1.337586] (sancho_navigation) StdoutLine: {'line': b'copying maps/greenhouse_map.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps\n'}
+[1.337648] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models\n'}
+[1.337705] (sancho_navigation) StdoutLine: {'line': b'copying models/tomato_model.pth -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models\n'}
+[1.398045] (-) TimerEvent: {}
+[1.499013] (-) TimerEvent: {}
+[1.566955] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2\n'}
+[1.567114] (sancho_navigation) StdoutLine: {'line': b'copying models/bush_2/model.config -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2\n'}
+[1.569376] (sancho_navigation) StdoutLine: {'line': b'copying models/bush_2/model.sdf -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2\n'}
+[1.569489] (sancho_navigation) StdoutLine: {'line': b'creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes\n'}
+[1.569552] (sancho_navigation) StdoutLine: {'line': b'copying models/bush_2/meshes/Green_Le.jpg -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes\n'}
+[1.569609] (sancho_navigation) StdoutLine: {'line': b'copying models/bush_2/meshes/bush_2.obj -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes\n'}
+[1.586053] (sancho_navigation) StdoutLine: {'line': b'copying models/bush_2/meshes/bush_2.mtl -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes\n'}
+[1.586209] (sancho_navigation) StdoutLine: {'line': b'running install_egg_info\n'}
+[1.590619] (sancho_navigation) StdoutLine: {'line': b'Copying ../../build/sancho_navigation/sancho_navigation.egg-info to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info\n'}
+[1.590759] (sancho_navigation) StdoutLine: {'line': b'running install_scripts\n'}
+[1.601097] (-) TimerEvent: {}
+[1.614216] (sancho_navigation) StdoutLine: {'line': b'Installing greenhouse_navigator script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation\n'}
+[1.615122] (sancho_navigation) StdoutLine: {'line': b'Installing plant_doctor script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation\n'}
+[1.615268] (sancho_navigation) StdoutLine: {'line': b'Installing route_generator script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation\n'}
+[1.615555] (sancho_navigation) StdoutLine: {'line': b'Installing waypoint_saver script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation\n'}
+[1.616351] (sancho_navigation) StdoutLine: {'line': b"writing list of installed files to '/home/gonzalo/gonzalo_ws/build/sancho_navigation/install.log'\n"}
+[1.645594] (sancho_navigation) CommandEnded: {'returncode': 0}
+[1.670471] (sancho_navigation) JobEnded: {'identifier': 'sancho_navigation', 'rc': 0}
+[1.676885] (-) EventReactorShutdown: {}
