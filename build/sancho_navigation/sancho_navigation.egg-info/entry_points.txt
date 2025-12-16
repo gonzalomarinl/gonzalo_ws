@@ -1,0 +1,6 @@
+[console_scripts]
+greenhouse_navigator = sancho_navigation.greenhouse_navigator:main
+plant_doctor = sancho_navigation.plant_doctor:main
+route_generator = sancho_navigation.route_generator:main
+waypoint_saver = sancho_navigation.waypoint_saver:main
+

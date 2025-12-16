@@ -1,0 +1,29 @@
+[0.990s] Invoking command in '/home/mapir/gonzalo_ws/src/sancho_navigation': PYTHONPATH=/home/mapir/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/mapir/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sancho_navigation build --build-base /home/mapir/gonzalo_ws/build/sancho_navigation/build install --record /home/mapir/gonzalo_ws/build/sancho_navigation/install.log --single-version-externally-managed install_data
+[1.316s] running egg_info
+[1.317s] writing ../../build/sancho_navigation/sancho_navigation.egg-info/PKG-INFO
+[1.317s] writing dependency_links to ../../build/sancho_navigation/sancho_navigation.egg-info/dependency_links.txt
+[1.317s] writing entry points to ../../build/sancho_navigation/sancho_navigation.egg-info/entry_points.txt
+[1.318s] writing requirements to ../../build/sancho_navigation/sancho_navigation.egg-info/requires.txt
+[1.318s] writing top-level names to ../../build/sancho_navigation/sancho_navigation.egg-info/top_level.txt
+[1.320s] reading manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+[1.321s] writing manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+[1.321s] running build
+[1.321s] running build_py
+[1.321s] running install
+[1.322s] running install_lib
+[1.324s] running install_data
+[1.324s] creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.324s] copying maps/prueba.pgm -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.324s] copying maps/prueba.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.325s] copying maps/greenhouse_map.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.325s] copying maps/greenhouse_map.pgm -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.325s] running install_egg_info
+[1.327s] removing '/home/mapir/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info' (and everything under it)
+[1.327s] Copying ../../build/sancho_navigation/sancho_navigation.egg-info to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info
+[1.328s] running install_scripts
+[1.356s] Installing greenhouse_navigator script to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.356s] Installing plant_doctor script to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.356s] Installing route_generator script to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.356s] Installing waypoint_saver script to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.357s] writing list of installed files to '/home/mapir/gonzalo_ws/build/sancho_navigation/install.log'
+[1.396s] Invoked command in '/home/mapir/gonzalo_ws/src/sancho_navigation' returned '0': PYTHONPATH=/home/mapir/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/mapir/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sancho_navigation build --build-base /home/mapir/gonzalo_ws/build/sancho_navigation/build install --record /home/mapir/gonzalo_ws/build/sancho_navigation/install.log --single-version-externally-managed install_data
