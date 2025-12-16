@@ -1,0 +1,68 @@
+running egg_info
+creating ../../build/sancho_navigation/sancho_navigation.egg-info
+writing ../../build/sancho_navigation/sancho_navigation.egg-info/PKG-INFO
+writing dependency_links to ../../build/sancho_navigation/sancho_navigation.egg-info/dependency_links.txt
+writing entry points to ../../build/sancho_navigation/sancho_navigation.egg-info/entry_points.txt
+writing requirements to ../../build/sancho_navigation/sancho_navigation.egg-info/requires.txt
+writing top-level names to ../../build/sancho_navigation/sancho_navigation.egg-info/top_level.txt
+writing manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+reading manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+writing manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/gonzalo/gonzalo_ws/build/sancho_navigation/build
+creating /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib
+creating /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+copying sancho_navigation/route_generator.py -> /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+copying sancho_navigation/__init__.py -> /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+copying sancho_navigation/greenhouse_navigator.py -> /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+running install
+running install_lib
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+copying /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/route_generator.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+copying /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/__init__.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+copying /home/gonzalo/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/greenhouse_navigator.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+byte-compiling /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/route_generator.py to route_generator.cpython-310.pyc
+byte-compiling /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/greenhouse_navigator.py to greenhouse_navigator.cpython-310.pyc
+running install_data
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+copying resource/sancho_navigation -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+copying package.xml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+copying launch/nav2_route.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+copying launch/simulation.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+copying launch/navigation.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+copying launch/slam.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+copying launch/navigation_only.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+copying launch/localization.launch.py -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+copying config/my_route.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+copying config/nav2_params.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+copying config/mapper_params_online_async.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+copying worlds/greenhouse.world -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+copying maps/prueba.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+copying maps/greenhouse_map.pgm -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+copying maps/prueba.pgm -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+copying maps/greenhouse_map.yaml -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+copying models/tomato_model.pth -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+copying models/bush_2/model.config -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+copying models/bush_2/model.sdf -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+creating /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+copying models/bush_2/meshes/Green_Le.jpg -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+copying models/bush_2/meshes/bush_2.obj -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+copying models/bush_2/meshes/bush_2.mtl -> /home/gonzalo/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+running install_egg_info
+Copying ../../build/sancho_navigation/sancho_navigation.egg-info to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info
+running install_scripts
+Installing greenhouse_navigator script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+Installing plant_doctor script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+Installing route_generator script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+Installing waypoint_saver script to /home/gonzalo/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+writing list of installed files to '/home/gonzalo/gonzalo_ws/build/sancho_navigation/install.log'
