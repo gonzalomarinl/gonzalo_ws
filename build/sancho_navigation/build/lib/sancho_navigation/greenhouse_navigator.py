@@ -12,6 +12,7 @@ import os
 import yaml
 import random
 import glob
+import urllib.request # Para descargar foto de emergencia
 from datetime import datetime
 
 # --- LIBRERÍAS DE IA ---
@@ -25,7 +26,7 @@ class GreenhouseNavigator(Node):
         super().__init__('greenhouse_navigator')
 
         # --- 1. CONFIGURACIÓN Y PARÁMETROS ---
-        self.declare_parameter('execution_mode', 'simulation') # Opciones: 'simulation' o 'real'
+        self.declare_parameter('execution_mode', 'simulation')
         self.declare_parameter('camera_topic', '/camera/image_raw')
         
         self.mode = self.get_parameter('execution_mode').get_parameter_value().string_value
@@ -33,12 +34,36 @@ class GreenhouseNavigator(Node):
         
         self.get_logger().info(f"🤖 INICIANDO EN MODO: {self.mode.upper()}")
 
-        # Configuración de rutas de archivos
-        self.image_save_path = os.path.expanduser('~/tfg_ws/plant_photos_results/')
-        self.test_images_path = os.path.expanduser('~/tfg_ws/src/sancho_navigation/test_images/') 
+        # --- RUTAS CORREGIDAS PARA gonzalo_ws ---
+        # Usamos expanduser('~') para que sirva tanto para 'mapir' como 'gonzalo'
+        self.base_path = os.path.expanduser('~/gonzalo_ws/src/sancho_navigation')
         
+        # Carpeta donde se guardarán los resultados (se crea sola si no existe)
+        self.image_save_path = os.path.expanduser('~/gonzalo_ws/plant_photos_results/')
+        
+        # Carpeta donde BUSCARÁ imágenes para simular (se crea sola)
+        self.test_images_path = os.path.join(self.base_path, 'test_images')
+        
+        # Modelo IA y Ruta
+        self.model_path = os.path.join(self.base_path, 'models', 'tomato_model.pth')
+        self.route_file = os.path.join(self.base_path, 'config', 'my_route.yaml')
+
+        # --- CREACIÓN AUTOMÁTICA DE DIRECTORIOS ---
         if not os.path.exists(self.image_save_path):
             os.makedirs(self.image_save_path)
+            self.get_logger().info(f"📁 Creada carpeta de resultados: {self.image_save_path}")
+
+        if not os.path.exists(self.test_images_path):
+            os.makedirs(self.test_images_path)
+            self.get_logger().info(f"📁 Creada carpeta de test: {self.test_images_path}")
+            # TRUCO: Descargar una imagen de tomate de ejemplo si la carpeta está vacía
+            try:
+                url_tomate = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/320px-Tomato_je.jpg"
+                img_dest = os.path.join(self.test_images_path, "tomate_test.jpg")
+                urllib.request.urlretrieve(url_tomate, img_dest)
+                self.get_logger().info("🍅 Descargada imagen de prueba automática para simulación.")
+            except:
+                pass # Si no hay internet, no pasa nada
 
         # --- 2. CONFIGURACIÓN SEGÚN MODO ---
         self.bridge = CvBridge()
@@ -46,7 +71,6 @@ class GreenhouseNavigator(Node):
         self.test_images = []
 
         if self.mode == 'real':
-            # MODO REAL: Nos suscribimos a la cámara física
             self.get_logger().info(f"📷 Conectando a cámara real en: {self.camera_topic_name}")
             self.camera_sub = self.create_subscription(
                 Image, 
@@ -55,17 +79,16 @@ class GreenhouseNavigator(Node):
                 10
             )
         else:
-            # MODO SIMULACIÓN: Cargamos fotos de prueba
+            # MODO SIMULACIÓN
             self.test_images = glob.glob(os.path.join(self.test_images_path, "*.*"))
             if not self.test_images:
-                self.get_logger().warn(f"⚠️ NO HAY IMÁGENES EN {self.test_images_path}. La simulación fallará al detectar.")
+                self.get_logger().warn(f"⚠️ AÚN NO HAY IMÁGENES EN {self.test_images_path}. Por favor pon alguna foto .jpg ahí.")
             else:
                 self.get_logger().info(f"📂 Simulación lista con {len(self.test_images)} imágenes de prueba.")
 
         # --- 3. CARGAR RED NEURONAL ---
         self.get_logger().info("🧠 Cargando Red Neuronal...")
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model_path = os.path.expanduser("~/tfg_ws/src/sancho_navigation/models/tomato_model.pth")
         
         self.classes = ['Bacterial Spot', 'Early_Blight', 'Healthy', 'Late_blight', 'Leaf Mold', 'Target_Spot', 'Black Spot']
         self.ai_ready = False
@@ -93,18 +116,16 @@ class GreenhouseNavigator(Node):
         # --- 4. NAVEGACIÓN ---
         self.nav_to_pose_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
         
-        # Cargar Ruta YAML
-        route_file = os.path.expanduser('~/tfg_ws/src/sancho_navigation/config/my_route.yaml')
         self.waypoints = []
-        if os.path.exists(route_file):
-            with open(route_file, 'r') as f:
+        if os.path.exists(self.route_file):
+            with open(self.route_file, 'r') as f:
                 data = yaml.safe_load(f)
                 if data:
                     for p in data:
                         self.waypoints.append([p['x'], p['y'], p['yaw'], p['name']])
             self.get_logger().info(f"✅ Ruta cargada: {len(self.waypoints)} puntos.")
         else:
-            self.get_logger().error("❌ No hay archivo de ruta.")
+            self.get_logger().error(f"❌ No hay archivo de ruta en: {self.route_file}")
             return 
 
         self.current_wp_index = 0
@@ -113,7 +134,6 @@ class GreenhouseNavigator(Node):
         self.create_timer(2.0, self.send_next_goal)
 
     def camera_callback(self, msg):
-        # Solo guardamos la última imagen recibida para procesarla cuando lleguemos al waypoint
         try:
             self.latest_cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
         except Exception as e:
@@ -167,7 +187,6 @@ class GreenhouseNavigator(Node):
     def perform_inspection(self):
         current_label = self.waypoints[self.current_wp_index][3]
         
-        # Ignorar puntos de giro
         if any(keyword in current_label for keyword in ["Giro", "Transicion", "Entrada"]):
             self.current_wp_index += 1
             self.send_next_goal()
@@ -176,14 +195,13 @@ class GreenhouseNavigator(Node):
         self.get_logger().info(f"📸 Inspeccionando ({self.mode}): {current_label}...")
         image_to_process = None
 
-        # --- SELECCIÓN DE IMAGEN SEGÚN MODO ---
         if self.mode == 'real':
             if self.latest_cv_image is not None:
                 image_to_process = self.latest_cv_image.copy()
             else:
                 self.get_logger().warn("⚠️ MODO REAL: No llegan imágenes de la cámara.")
         else:
-            # Modo Simulation
+            # MODO SIMULACIÓN
             if self.test_images:
                 try:
                     img_path = random.choice(self.test_images)
@@ -194,10 +212,8 @@ class GreenhouseNavigator(Node):
             else:
                 self.get_logger().warn("⚠️ MODO SIM: No hay imágenes en la carpeta test.")
 
-        # --- PROCESAMIENTO E INFERENCIA ---
         if image_to_process is not None and self.ai_ready:
             try:
-                # Inferencia
                 pil_img = PILImage.fromarray(cv2.cvtColor(image_to_process, cv2.COLOR_BGR2RGB))
                 input_tensor = self.transform(pil_img).unsqueeze(0).to(self.device)
                 
@@ -209,20 +225,20 @@ class GreenhouseNavigator(Node):
                     class_name = self.classes[top_class.item()]
                     confidence = top_prob.item() * 100
 
-                # Logs y Guardado
                 log_msg = f"{class_name} ({confidence:.1f}%)"
                 if class_name != "Healthy":
                     self.get_logger().error(f"🚨 DETECTADO: {log_msg}")
-                    color = (0, 0, 255) # Rojo
+                    color = (0, 0, 255) 
                 else:
                     self.get_logger().info(f"✅ PLANTA SANA: {log_msg}")
-                    color = (0, 255, 0) # Verde
+                    color = (0, 255, 0)
 
-                # Estampar resultado en la foto
                 cv2.putText(image_to_process, log_msg, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
                 cv2.putText(image_to_process, current_label, (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
                 
-                filename = f"Analisis_{current_label}_{class_name}.jpg"
+                # Guardar con Timestamp para evitar sobreescribir
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"Analisis_{current_label}_{timestamp}.jpg"
                 save_path = os.path.join(self.image_save_path, filename)
                 cv2.imwrite(save_path, image_to_process)
                 self.get_logger().info(f"💾 Evidencia guardada en {filename}")
@@ -230,7 +246,7 @@ class GreenhouseNavigator(Node):
             except Exception as e:
                 self.get_logger().error(f"Error en inferencia: {e}")
         
-        # Pausa para simular tiempo de inspección y continuar
+        self.current_wp_index += 1
         self.timer_wait = self.create_timer(1.0, self.send_next_goal)
 
 def main(args=None):
