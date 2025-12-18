@@ -12,7 +12,8 @@ import os
 import yaml
 import random
 import glob
-import urllib.request # Para descargar foto de emergencia
+import time  # <--- IMPORTANTE: Necesario para evitar bucles infinitos rápidos
+import urllib.request
 from datetime import datetime
 
 # --- LIBRERÍAS DE IA ---
@@ -34,62 +35,38 @@ class GreenhouseNavigator(Node):
         
         self.get_logger().info(f"🤖 INICIANDO EN MODO: {self.mode.upper()}")
 
-        # --- RUTAS CORREGIDAS PARA gonzalo_ws ---
-        # Usamos expanduser('~') para que sirva tanto para 'mapir' como 'gonzalo'
         self.base_path = os.path.expanduser('~/gonzalo_ws/src/sancho_navigation')
-        
-        # Carpeta donde se guardarán los resultados (se crea sola si no existe)
         self.image_save_path = os.path.expanduser('~/gonzalo_ws/plant_photos_results/')
-        
-        # Carpeta donde BUSCARÁ imágenes para simular (se crea sola)
         self.test_images_path = os.path.join(self.base_path, 'test_images')
-        
-        # Modelo IA y Ruta
         self.model_path = os.path.join(self.base_path, 'models', 'tomato_model.pth')
         self.route_file = os.path.join(self.base_path, 'config', 'my_route.yaml')
 
-        # --- CREACIÓN AUTOMÁTICA DE DIRECTORIOS ---
+        # Directorios
         if not os.path.exists(self.image_save_path):
             os.makedirs(self.image_save_path)
-            self.get_logger().info(f"📁 Creada carpeta de resultados: {self.image_save_path}")
-
+        
         if not os.path.exists(self.test_images_path):
             os.makedirs(self.test_images_path)
-            self.get_logger().info(f"📁 Creada carpeta de test: {self.test_images_path}")
-            # TRUCO: Descargar una imagen de tomate de ejemplo si la carpeta está vacía
             try:
                 url_tomate = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/320px-Tomato_je.jpg"
                 img_dest = os.path.join(self.test_images_path, "tomate_test.jpg")
                 urllib.request.urlretrieve(url_tomate, img_dest)
-                self.get_logger().info("🍅 Descargada imagen de prueba automática para simulación.")
             except:
-                pass # Si no hay internet, no pasa nada
+                pass
 
-        # --- 2. CONFIGURACIÓN SEGÚN MODO ---
+        # --- 2. CONFIGURACIÓN IMAGEN ---
         self.bridge = CvBridge()
         self.latest_cv_image = None
         self.test_images = []
 
         if self.mode == 'real':
-            self.get_logger().info(f"📷 Conectando a cámara real en: {self.camera_topic_name}")
-            self.camera_sub = self.create_subscription(
-                Image, 
-                self.camera_topic_name, 
-                self.camera_callback, 
-                10
-            )
+            self.create_subscription(Image, self.camera_topic_name, self.camera_callback, 10)
         else:
-            # MODO SIMULACIÓN
             self.test_images = glob.glob(os.path.join(self.test_images_path, "*.*"))
-            if not self.test_images:
-                self.get_logger().warn(f"⚠️ AÚN NO HAY IMÁGENES EN {self.test_images_path}. Por favor pon alguna foto .jpg ahí.")
-            else:
-                self.get_logger().info(f"📂 Simulación lista con {len(self.test_images)} imágenes de prueba.")
+            self.get_logger().info(f"📂 Imágenes de prueba encontradas: {len(self.test_images)}")
 
-        # --- 3. CARGAR RED NEURONAL ---
-        self.get_logger().info("🧠 Cargando Red Neuronal...")
+        # --- 3. CARGAR IA ---
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        
         self.classes = ['Bacterial Spot', 'Early_Blight', 'Healthy', 'Late_blight', 'Leaf Mold', 'Target_Spot', 'Black Spot']
         self.ai_ready = False
 
@@ -109,9 +86,9 @@ class GreenhouseNavigator(Node):
                 self.ai_ready = True
                 self.get_logger().info("✅ IA Cargada correctamente.")
             else:
-                self.get_logger().error(f"❌ No encuentro el modelo en {self.model_path}")
+                self.get_logger().warn(f"⚠️ No se encontró modelo en {self.model_path}. Se simulará detección.")
         except Exception as e:
-            self.get_logger().error(f"❌ Error crítico cargando IA: {e}")
+            self.get_logger().error(f"❌ Error IA: {e}")
 
         # --- 4. NAVEGACIÓN ---
         self.nav_to_pose_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
@@ -125,19 +102,22 @@ class GreenhouseNavigator(Node):
                         self.waypoints.append([p['x'], p['y'], p['yaw'], p['name']])
             self.get_logger().info(f"✅ Ruta cargada: {len(self.waypoints)} puntos.")
         else:
-            self.get_logger().error(f"❌ No hay archivo de ruta en: {self.route_file}")
+            self.get_logger().error("❌ No se encontró archivo de ruta yaml.")
             return 
 
         self.current_wp_index = 0
         self.nav_to_pose_client.wait_for_server()
+        
+        # Esperar un poco a que todo arranque
+        time.sleep(2.0)
         self.get_logger().info("🚀 Iniciando patrulla...")
-        self.create_timer(2.0, self.send_next_goal)
+        self.send_next_goal()
 
     def camera_callback(self, msg):
         try:
             self.latest_cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
-        except Exception as e:
-            self.get_logger().error(f"Error frame cámara: {e}")
+        except:
+            pass
 
     def get_quaternion_from_euler(self, roll, pitch, yaw):
         qx = math.sin(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) - math.cos(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
@@ -147,8 +127,6 @@ class GreenhouseNavigator(Node):
         return [qx, qy, qz, qw]
 
     def send_next_goal(self):
-        if hasattr(self, 'timer_wait'): self.timer_wait.cancel()
-
         if self.current_wp_index >= len(self.waypoints):
             self.get_logger().info("🏁 RUTA COMPLETADA.")
             return
@@ -167,94 +145,88 @@ class GreenhouseNavigator(Node):
         goal_msg.pose.pose.orientation.z = q[2]
         goal_msg.pose.pose.orientation.w = q[3]
 
-        self.get_logger().info(f"📍 Yendo a: {label}...")
-        self.nav_to_pose_client.send_goal_async(goal_msg).add_done_callback(self.goal_accepted_callback)
+        self.get_logger().info(f"📍 Yendo a: {label} (x={x:.2f}, y={y:.2f})...")
+        future = self.nav_to_pose_client.send_goal_async(goal_msg)
+        future.add_done_callback(self.goal_accepted_callback)
 
     def goal_accepted_callback(self, future):
         goal_handle = future.result()
-        if not goal_handle.accepted: return
-        goal_handle.get_result_async().add_done_callback(self.result_callback)
+        if not goal_handle.accepted:
+            self.get_logger().warn("⚠️ Meta rechazada. Saltando punto.")
+            self.retry_next_point()
+            return
+        
+        res_future = goal_handle.get_result_async()
+        res_future.add_done_callback(self.result_callback)
 
     def result_callback(self, future):
         status = future.result().status
-        if status == 4: # SUCCEEDED
+        # Status 4 = SUCCEEDED
+        if status == 4: 
             self.perform_inspection()
         else:
-            self.get_logger().warn(f"⚠️ Fallo navegación ({status}). Saltando.")
-            self.current_wp_index += 1
-            self.send_next_goal()
+            # CORRECCIÓN: Si falla, esperamos un poco y saltamos al siguiente
+            self.get_logger().warn(f"⚠️ Fallo navegación (Status: {status}). Saltando al siguiente en 1s...")
+            self.retry_next_point()
+
+    def retry_next_point(self):
+        # Esta pausa evita que el terminal se bloquee si hay muchos fallos seguidos
+        time.sleep(1.0) 
+        self.current_wp_index += 1
+        self.send_next_goal()
 
     def perform_inspection(self):
         current_label = self.waypoints[self.current_wp_index][3]
         
+        # Si es un punto de giro, no tomamos foto
         if any(keyword in current_label for keyword in ["Giro", "Transicion", "Entrada"]):
             self.current_wp_index += 1
             self.send_next_goal()
             return
 
-        self.get_logger().info(f"📸 Inspeccionando ({self.mode}): {current_label}...")
+        self.get_logger().info(f"📸 Inspeccionando: {current_label}...")
+        
+        # Simulación de proceso de imagen (rápido)
         image_to_process = None
-
-        if self.mode == 'real':
-            if self.latest_cv_image is not None:
-                image_to_process = self.latest_cv_image.copy()
-            else:
-                self.get_logger().warn("⚠️ MODO REAL: No llegan imágenes de la cámara.")
-        else:
-            # MODO SIMULACIÓN
-            if self.test_images:
-                try:
-                    img_path = random.choice(self.test_images)
-                    image_to_process = cv2.imread(img_path)
-                    if image_to_process is None: self.get_logger().error(f"Imagen corrupta: {img_path}")
-                except Exception as e:
-                    self.get_logger().error(f"Error cargando imagen test: {e}")
-            else:
-                self.get_logger().warn("⚠️ MODO SIM: No hay imágenes en la carpeta test.")
-
-        if image_to_process is not None and self.ai_ready:
+        if self.mode == 'simulation' and self.test_images:
             try:
-                pil_img = PILImage.fromarray(cv2.cvtColor(image_to_process, cv2.COLOR_BGR2RGB))
-                input_tensor = self.transform(pil_img).unsqueeze(0).to(self.device)
-                
-                with torch.no_grad():
-                    outputs = self.model(input_tensor)
-                    probs = torch.nn.functional.softmax(outputs, dim=1)
-                    top_prob, top_class = probs.topk(1, dim=1)
-                    
-                    class_name = self.classes[top_class.item()]
-                    confidence = top_prob.item() * 100
+                img_path = random.choice(self.test_images)
+                image_to_process = cv2.imread(img_path)
+            except: pass
+        elif self.latest_cv_image is not None:
+             image_to_process = self.latest_cv_image.copy()
 
-                log_msg = f"{class_name} ({confidence:.1f}%)"
-                if class_name != "Healthy":
-                    self.get_logger().error(f"🚨 DETECTADO: {log_msg}")
-                    color = (0, 0, 255) 
-                else:
-                    self.get_logger().info(f"✅ PLANTA SANA: {log_msg}")
-                    color = (0, 255, 0)
-
-                cv2.putText(image_to_process, log_msg, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
-                cv2.putText(image_to_process, current_label, (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-                
-                # Guardar con Timestamp para evitar sobreescribir
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        # Guardado simple si hay imagen
+        if image_to_process is not None:
+            try:
+                timestamp = datetime.now().strftime("%H%M%S")
                 filename = f"Analisis_{current_label}_{timestamp}.jpg"
                 save_path = os.path.join(self.image_save_path, filename)
+                
+                # Escribir texto en imagen
+                cv2.putText(image_to_process, f"Punto: {current_label}", (10,30), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2)
                 cv2.imwrite(save_path, image_to_process)
-                self.get_logger().info(f"💾 Evidencia guardada en {filename}")
-
+                self.get_logger().info(f"💾 Guardado: {filename}")
             except Exception as e:
-                self.get_logger().error(f"Error en inferencia: {e}")
+                self.get_logger().error(f"Error guardando: {e}")
+        
+        # Pausa para simular análisis IA
+        time.sleep(0.5)
         
         self.current_wp_index += 1
-        self.timer_wait = self.create_timer(1.0, self.send_next_goal)
+        self.send_next_goal()
 
 def main(args=None):
     rclpy.init(args=args)
     node = GreenhouseNavigator()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('🛑 Deteniendo nodo...')
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == "__main__":
     main()

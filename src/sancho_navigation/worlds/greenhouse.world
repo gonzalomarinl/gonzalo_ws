@@ -1,17 +1,14 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
   <world name="default">
-    <!-- Iluminación y Sol -->
     <include>
       <uri>model://sun</uri>
     </include>
 
-    <!-- Suelo -->
     <include>
       <uri>model://ground_plane</uri>
     </include>
 
-    <!-- PLANTA DE TOMATES (Fila 1 - Y=0.0) -->
     <include>
       <uri>model://bush_2</uri>
       <name>plant_1</name>
@@ -33,48 +30,46 @@
       <pose>1.8 0.0 0 0 0 0</pose>
     </include>
 
-    <!-- Fila 2 (Y = 2.0) -->
     <include>
       <uri>model://bush_2</uri>
       <name>plant_5</name>
-      <pose>-1.8 2.0 0 0 0 0</pose>
+      <pose>-1.8 3.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://bush_2</uri>
       <name>plant_6</name>
-      <pose>-0.6 2.0 0 0 0 0</pose>
+      <pose>-0.6 3.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://bush_2</uri>
       <name>plant_7</name>
-      <pose>0.6 2.0 0 0 0 0</pose>
+      <pose>0.6 3.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://bush_2</uri>
       <name>plant_8</name>
-      <pose>1.8 2.0 0 0 0 0</pose>
+      <pose>1.8 3.0 0 0 0 0</pose>
     </include>
 
-    <!-- Fila 3 (Y = 4.0) -->
     <include>
       <uri>model://bush_2</uri>
       <name>plant_9</name>
-      <pose>-1.8 4.0 0 0 0 0</pose>
+      <pose>-1.8 6.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://bush_2</uri>
       <name>plant_10</name>
-      <pose>-0.6 4.0 0 0 0 0</pose>
+      <pose>-0.6 6.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://bush_2</uri>
       <name>plant_11</name>
-      <pose>0.6 4.0 0 0 0 0</pose>
+      <pose>0.6 6.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://bush_2</uri>
       <name>plant_12</name>
-      <pose>1.8 4.0 0 0 0 0</pose>
+      <pose>1.8 6.0 0 0 0 0</pose>
     </include>
 
   </world>
