@@ -9,11 +9,8 @@
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages/sancho_navigation
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/package.xml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/simulation.launch.py
-/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/navigation_only.launch.py
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/slam.launch.py
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/navigation.launch.py
-/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/nav2_route.launch.py
-/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/localization.launch.py
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/mapper_params_online_async.yaml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/nav2_params.yaml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/my_route.yaml

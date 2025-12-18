@@ -169,7 +169,7 @@ def generate_route_cv():
                     'yaw': round(math.degrees(yaw_look), 1)
                 })
 
-    # 4. RESULTADO
+# 4. RESULTADO
     print(f"\n✅ Ruta calculada: {len(waypoints_list)} puntos.")
     print("👀 Se abrirá una ventana para verificar. PULSA UNA TECLA PARA GUARDAR.")
     
@@ -179,12 +179,17 @@ def generate_route_cv():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+    # --- GUARDAR YAML (DATOS) ---
     output_path = os.path.expanduser('~/gonzalo_ws/src/sancho_navigation/config/my_route.yaml')
     with open(output_path, 'w') as f:
         yaml.dump(waypoints_list, f, sort_keys=False)
-    print(f"💾 Guardado en: {output_path}")
+    print(f"💾 Ruta (YAML) guardada en: {output_path}")
+
+    # --- NUEVO: GUARDAR IMAGEN (FOTO) ---
+    img_output_path = os.path.expanduser('~/gonzalo_ws/src/sancho_navigation/config/ruta_generada.jpg')
+    cv2.imwrite(img_output_path, vis_img)
+    print(f"🖼️ Imagen guardada en: {img_output_path}")
 
 if __name__ == "__main__":
-    # Secuencia de ejecución lógica
-    perform_localization_spin() # 1. Muévete para saber dónde estás
-    generate_route_cv()         # 2. Calcula adónde vas
+    perform_localization_spin() 
+    generate_route_cv()
