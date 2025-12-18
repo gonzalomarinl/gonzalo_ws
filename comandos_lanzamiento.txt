@@ -1,0 +1,50 @@
+ESCENARIO 1: SIMULACIÓN (Gazebo)
+1. Iniciar Gazebo y Robot
+
+ros2 launch sancho_navigation simulation.launch.py
+
+2. Opción A: Mapear (Crear mapa nuevo)
+
+ros2 launch sancho_navigation slam.launch.py
+
+3. Opción B: Navegar (Usar mapa existente)
+
+ros2 launch sancho_navigation navigation.launch.py
+
+4. Mover Robot (Teleoperación)
+
+ros2 run turtlebot3_teleop teleop_keyboard
+
+5. Guardar Mapa (Sobrescribir)
+
+ros2 run nav2_map_server map_saver_cli -f ~/gonzalo_ws/src/sancho_navigation/maps/greenhouse_map
+
+6. Generar Ruta Matemática (Zigzag)
+
+python3 ~/gonzalo_ws/src/sancho_navigation/sancho_navigation/lineal_route_generator.py
+
+7. Ejecutar Patrulla Autónoma (Simulación)
+
+ros2 run sancho_navigation greenhouse_navigator --ros-args -p execution_mode:=simulation
+
+ESCENARIO 2: ROBOT REAL
+1. Mapear (Crear mapa real) (Nota: Ajusta la ruta si tu usuario no es gonzalomarin)
+
+ros2 launch sancho_navigation slam.launch.py use_sim_time:='false' params_file:=/home/gonzalomarin/gonzalo_ws/src/sancho_navigation/config/mapper_params_real.yaml
+
+2. Navegar (Usar mapa existente)
+
+ros2 launch sancho_navigation navigation.launch.py use_sim_time:='false'
+
+3. Ejecutar Patrulla Autónoma (Real)
+
+ros2 run sancho_navigation greenhouse_navigator --ros-args -p execution_mode:=real
+
+🛠️ COMANDOS ÚTILES (Mantenimiento)
+Recompilar todo el workspace
+
+cd ~/gonzalo_ws && colcon build --symlink-install && source install/setup.bash
+
+Instalar dependencias Python (si fallan)
+
+pip3 install "numpy<2.0" "opencv-python<4.10"

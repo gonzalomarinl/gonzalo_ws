@@ -1,15 +1,15 @@
 slam_toolbox:
   ros__parameters:
 
-    # --- PARÁMETROS CRÍTICOS CORREGIDOS ---
-    use_sim_time: true          # <--- OBLIGATORIO para sincronizar con Gazebo
-    scan_topic: /scan           # <--- CORREGIDO: En simulacion es /scan, no /scan_1st
+    # --- PARÁMETROS PARA ROBOT REAL ---
+    use_sim_time: false         # <--- Importante: Falso para robot real
+    scan_topic: /scan_1st       # <--- Tu topic original
     base_frame: base_footprint
     odom_frame: odom
     map_frame: map
     mode: mapping 
     
-    # Plugin params
+    # Plugin params (Igual que el otro)
     solver_plugin: solver_plugins::CeresSolver
     ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
     ceres_preconditioner: SCHUR_JACOBI
