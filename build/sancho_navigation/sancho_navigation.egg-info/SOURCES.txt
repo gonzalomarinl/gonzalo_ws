@@ -9,6 +9,7 @@ setup.py
 ../../build/sancho_navigation/sancho_navigation.egg-info/top_level.txt
 ../../build/sancho_navigation/sancho_navigation.egg-info/zip-safe
 config/mapper_params_online_async.yaml
+config/mapper_params_real.yaml
 config/my_route.yaml
 config/nav2_params.yaml
 launch/navigation.launch.py

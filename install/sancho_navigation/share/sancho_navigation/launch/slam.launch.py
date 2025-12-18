@@ -8,25 +8,25 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     
-    # 1. Definir rutas
     sancho_nav_dir = get_package_share_directory('sancho_navigation')
-    slam_params_file = os.path.join(sancho_nav_dir, 'config', 'mapper_params_online_async.yaml')
+    
+    # Por defecto usamos el de SIMULACIÓN
+    default_params_file = os.path.join(sancho_nav_dir, 'config', 'mapper_params_online_async.yaml')
 
-    # 2. Argumentos
     use_sim_time = LaunchConfiguration('use_sim_time')
     params_file = LaunchConfiguration('params_file')
 
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', 
-        default_value='true',  # <--- CORREGIDO: Por defecto a TRUE para simulación
+        default_value='true',
         description='Use simulation/Gazebo clock')
 
     declare_params_file = DeclareLaunchArgument(
         'params_file',
-        default_value=slam_params_file,
-        description='Full path to the ROS2 parameters file to use for the slam_toolbox node')
+        default_value=default_params_file,
+        description='Ruta al archivo yaml de parámetros')
 
-    # 3. Nodo SLAM
+    # SLAM Toolbox
     slam_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -41,13 +41,13 @@ def generate_launch_description():
         }.items()
     )
 
-    # 4. Nodo RViz (CORREGIDO)
+    # RViz
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
         output='screen',
-        parameters=[{'use_sim_time': use_sim_time}] # <--- ¡IMPORTANTE! SIN #
+        parameters=[{'use_sim_time': use_sim_time}]
     )
 
     return LaunchDescription([

@@ -12,6 +12,7 @@
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/slam.launch.py
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch/navigation.launch.py
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/mapper_params_online_async.yaml
+/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/mapper_params_real.yaml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/nav2_params.yaml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config/my_route.yaml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds/greenhouse.world

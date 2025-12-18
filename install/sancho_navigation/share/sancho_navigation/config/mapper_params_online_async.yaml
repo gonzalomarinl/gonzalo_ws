@@ -1,6 +1,14 @@
 slam_toolbox:
   ros__parameters:
 
+    # --- PARÁMETROS CRÍTICOS CORREGIDOS ---
+    use_sim_time: true          # <--- OBLIGATORIO para sincronizar con Gazebo
+    scan_topic: /scan           # <--- CORREGIDO: En simulacion es /scan, no /scan_1st
+    base_frame: base_footprint
+    odom_frame: odom
+    map_frame: map
+    mode: mapping 
+    
     # Plugin params
     solver_plugin: solver_plugins::CeresSolver
     ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
@@ -9,16 +17,8 @@ slam_toolbox:
     ceres_dogleg_type: TRADITIONAL_DOGLEG
     ceres_loss_function: None
 
-    # ROS Parameters
-    odom_frame: odom
-    map_frame: map
-    base_frame: base_footprint  # <--- ¡CAMBIO IMPORTANTE! Antes ponía base_link
-    scan_topic: /scan_1st       # <--- ¡CORRECTO! Coincide con tu 'ros2 topic info'
-    use_map_saver: true
-    mode: mapping 
-
-    # --- Resto de parámetros (están bien) ---
-    debug_logging: true
+    # General Parameters
+    debug_logging: false
     throttle_scans: 1
     transform_publish_period: 0.02 
     map_update_interval: 5.0
@@ -31,7 +31,7 @@ slam_toolbox:
     stack_size_to_use: 40000000 
     enable_interactive_mode: true
 
-    # General Parameters
+    # Scan Matcher Parameters
     use_scan_matching: true
     use_scan_barycenter: true
     minimum_travel_distance: 0.5
@@ -57,7 +57,7 @@ slam_toolbox:
     loop_search_space_resolution: 0.05
     loop_search_space_smear_deviation: 0.03
 
-    # Scan Matcher Parameters
+    # Matcher Penalties
     distance_variance_penalty: 0.5      
     angle_variance_penalty: 1.0    
 
@@ -69,3 +69,4 @@ slam_toolbox:
     use_response_expansion: true
     min_pass_through: 2
     occupancy_threshold: 0.1
+    use_map_saver: true
