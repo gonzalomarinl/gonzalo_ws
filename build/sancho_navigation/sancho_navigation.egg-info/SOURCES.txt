@@ -33,4 +33,8 @@ sancho_navigation/route_generator.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py
+test_images/test1.JPG
+test_images/test2.JPG
+test_images/test3.JPG
+test_images/test4.JPG
 worlds/greenhouse.world

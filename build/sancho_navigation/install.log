@@ -20,6 +20,10 @@
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps/prueba.pgm
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps/greenhouse_map.yaml
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps/greenhouse_map.pgm
+/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images/test2.JPG
+/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images/test3.JPG
+/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images/test4.JPG
+/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images/test1.JPG
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/tomato_model.pth
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/model.config
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/model.sdf
@@ -34,6 +38,5 @@
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info/dependency_links.txt
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info/PKG-INFO
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation/greenhouse_navigator
-/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation/plant_doctor
+/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation/lineal_route_generator
 /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation/route_generator
-/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation/waypoint_saver

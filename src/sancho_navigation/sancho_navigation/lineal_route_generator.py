@@ -2,136 +2,177 @@ import cv2
 import numpy as np
 import yaml
 import os
+import math
 
 # --- CONFIGURACIÓN ---
-MAP_NAME = "greenhouse_map"  # Nombre de tu mapa (sin extensión)
-# Ajusta esta ruta a tu usuario real
-BASE_DIR = "/home/gonzalomarin/gonzalo_ws/src/sancho_navigation"
+MAP_NAME = "greenhouse_map"  # Asegúrate que coincide con tu mapa
+BASE_DIR = os.path.expanduser("~/gonzalo_ws/src/sancho_navigation")
 MAP_PATH = f"{BASE_DIR}/maps/{MAP_NAME}.pgm"
 YAML_PATH = f"{BASE_DIR}/maps/{MAP_NAME}.yaml"
 OUTPUT_YAML = f"{BASE_DIR}/config/my_route.yaml"
+OUTPUT_IMG = f"{BASE_DIR}/config/ruta_generada.jpg"
 
-# Parámetros de ajuste
-SAFETY_MARGIN = 15     # Cuánto nos alejamos de la planta (píxeles)
-POINT_INTERVAL = 25    # Cada cuántos píxeles ponemos un waypoint (para no tener mil puntos)
-
-def get_map_resolution(yaml_file):
+def get_map_metadata(yaml_file):
     with open(yaml_file, 'r') as f:
         data = yaml.safe_load(f)
     return data['resolution'], data['origin']
 
+def interpolate_points(p1, p2, interval_px):
+    """Genera puntos intermedios entre p1 y p2 cada 'interval_px'"""
+    dist = math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+    if dist < interval_px:
+        return []
+    
+    num_points = int(dist // interval_px)
+    new_points = []
+    for i in range(1, num_points + 1):
+        # Interpolación lineal
+        factor = i / (num_points + 1)
+        nx = int(p1[0] + (p2[0] - p1[0]) * factor)
+        ny = int(p1[1] + (p2[1] - p1[1]) * factor)
+        new_points.append([nx, ny])
+    return new_points
+
 def generate_route():
-    print(f"🗺️  Cargando mapa: {MAP_PATH}")
+    print("\n--- PARÁMETROS DE SEGURIDAD ---")
+    
+    # 1. Obtener resolución para convertir metros a píxeles
+    resolution, origin = get_map_metadata(YAML_PATH)
+    print(f"Resolución del mapa: {resolution} m/px")
+
+    # 2. Pedir datos al usuario
+    try:
+        margin_m = float(input("1. Distancia de seguridad a la planta (metros, ej: 0.6): "))
+        interval_m = float(input("2. Separación entre fotos (metros, ej: 0.5): "))
+    except ValueError:
+        print("❌ Por favor introduce números válidos (usa punto para decimales).")
+        return
+
+    # Convertir a píxeles
+    SAFETY_MARGIN_PX = int(margin_m / resolution)
+    POINT_INTERVAL_PX = int(interval_m / resolution)
+
+    print(f"\n🗺️  Cargando mapa: {MAP_PATH}")
     img = cv2.imread(MAP_PATH, cv2.IMREAD_GRAYSCALE)
     
     if img is None:
         print("❌ Error: No se encuentra la imagen del mapa (.pgm)")
         return
 
-    # 1. Procesar imagen para aislar obstáculos (las plantas)
-    # Lo negro (0) son obstáculos. Lo blanco (254) es libre.
+    # --- PROCESADO DE IMAGEN ---
+    # Lo negro (0) son obstáculos. Invertimos para dilatar.
     _, thresh = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY_INV)
 
-    # 2. Dilatar los obstáculos para crear el margen de seguridad
-    # Esto "engorda" las plantas para que la ruta se dibuje separada
-    kernel = np.ones((SAFETY_MARGIN, SAFETY_MARGIN), np.uint8)
+    # Dilatamos para crear el "Area Prohibida" (Planta + Margen de seguridad)
+    kernel = np.ones((SAFETY_MARGIN_PX, SAFETY_MARGIN_PX), np.uint8)
     dilated = cv2.dilate(thresh, kernel, iterations=1)
 
-    # 3. Encontrar contornos (las filas de plantas)
+    # Encontramos contornos (Filas de plantas dilatadas)
     contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
-    # --- LA MAGIA: ORDENAR Y UNIR ---
-    
-    # Ordenamos los contornos de Arriba a Abajo (usando la coordenada Y)
-    # Así el robot hará Fila 1 -> Fila 2 -> Fila 3 en orden.
-    contours = sorted(contours, key=lambda c: cv2.boundingRect(c)[1])
+    # --- LÓGICA ZIG-ZAG ---
+    # Ordenar contornos de ABAJO a ARRIBA (Coordenada Y Mayor a Menor)
+    # En imágenes, Y crece hacia abajo, así que Y Mayor = Abajo.
+    contours = sorted(contours, key=lambda c: cv2.boundingRect(c)[1], reverse=True)
 
     full_route = []
-    global_point_count = 0
+    debug_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
-    debug_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) # Para visualizar en color
-
-    print(f"✅ Se han detectado {len(contours)} filas de plantas.")
+    print(f"✅ Detectadas {len(contours)} filas.")
 
     for i, cnt in enumerate(contours):
-        # Simplificar el contorno para que no tenga demasiados vértices
-        epsilon = 0.005 * cv2.arcLength(cnt, True)
-        approx = cv2.approxPolyDP(cnt, epsilon, True)
+        # 1. Obtenemos el rectángulo que envuelve la fila
+        x, y, w, h = cv2.boundingRect(cnt)
+        
+        # 2. Definimos la línea de paso. 
+        # Usamos el borde SUPERIOR del área dilatada para asegurar visibilidad y seguridad
+        # Esto crea una línea recta paralela a la fila.
+        # Restamos un pequeño offset extra para no pisar el borde exacto
+        line_y = y  
+        
+        start_x = x
+        end_x = x + w
 
-        # Tomar puntos cada cierto intervalo
-        # Recorremos los puntos del contorno
-        row_points = []
-        for j in range(0, len(approx), max(1, len(approx)//(len(approx)//5 + 1))): 
-            # Nota: El paso del range es un truco para no coger todos los puntos
-            # Si quieres más precisión fija, usa POINT_INTERVAL con lógica de distancia
-            pt = approx[j][0]
-            row_points.append(pt)
+        # 3. Decidimos la dirección (Zig-Zag)
+        if i % 2 == 0: 
+            # Filas PARES (0, 2...): Izquierda -> Derecha
+            p_start = [start_x, line_y]
+            p_end = [end_x, line_y]
+            color = (0, 255, 0) # Verde
+            print(f"Fila {i+1}: Izquierda -> Derecha")
+        else:
+            # Filas IMPARES (1, 3...): Derecha -> Izquierda
+            p_start = [end_x, line_y]
+            p_end = [start_x, line_y]
+            color = (255, 0, 0) # Azul para diferenciar
+            print(f"Fila {i+1}: Derecha -> Izquierda")
 
-        # Aseguramos cerrar el bucle de la fila (volver al inicio de la fila)
-        row_points.append(row_points[0]) 
+        # 4. Generar Waypoints interpolados
+        # Añadimos punto inicial
+        row_points = [p_start]
+        
+        # Añadimos intermedios (cada X metros)
+        intermediates = interpolate_points(p_start, p_end, POINT_INTERVAL_PX)
+        row_points.extend(intermediates)
+        
+        # Añadimos punto final
+        row_points.append(p_end)
 
-        # Añadimos estos puntos a la ruta global
         full_route.extend(row_points)
         
-        # DIBUJAR (Visualización)
-        cv2.drawContours(debug_img, [approx], -1, (0, 255, 0), 2) # Línea verde
+        # DIBUJAR DEBUG
+        # Dibujamos el contorno de seguridad (Gris)
+        cv2.drawContours(debug_img, [cnt], -1, (200, 200, 200), 1)
         
-        # Dibujar puntos rojos
+        # Dibujamos la línea de ruta
+        cv2.line(debug_img, tuple(p_start), tuple(p_end), color, 2)
+        
+        # Dibujamos los puntos
         for pt in row_points:
-            cv2.circle(debug_img, tuple(pt), 4, (0, 0, 255), -1)
+            cv2.circle(debug_img, tuple(pt), 3, (0, 0, 255), -1)
 
-    # --- GUARDAR RUTAS EN YAML ---
-    resolution, origin = get_map_resolution(YAML_PATH)
+    # --- GUARDAR EN YAML ---
     origin_x, origin_y = origin[0], origin[1]
-    
     final_yaml_data = []
 
-    # Dibujar líneas de conexión entre filas para verificar
+    # Dibujar conexiones entre filas
     for k in range(len(full_route) - 1):
-        p1 = tuple(full_route[k])
-        p2 = tuple(full_route[k+1])
-        cv2.line(debug_img, p1, p2, (0, 255, 0), 1)
+        cv2.line(debug_img, tuple(full_route[k]), tuple(full_route[k+1]), (0, 255, 255), 1)
 
-    # Convertir píxeles a metros (Coordenadas del mundo real)
     for idx, point in enumerate(full_route):
-        # Convertir pixel a coordenadas de mapa (invertir Y porque la imagen se lee de arriba a abajo)
         px, py = point[0], point[1]
         
-        # Transformación Píxel -> Metros
+        # Pixel -> Metros
         world_x = origin_x + (px * resolution)
-        # En imágenes, la Y crece hacia abajo. En ROS, la Y crece hacia arriba.
-        # Dependiendo de cómo guardó map_server, a veces hay que invertir la altura.
-        # Probamos la fórmula estándar:
-        world_y = origin_y + ((img.shape[0] - py) * resolution) 
+        world_y = origin_y + ((img.shape[0] - py) * resolution)
 
-        # Calcular orientación (YAW) para que mire al siguiente punto
+        # Orientación (apuntando al siguiente punto)
         if idx < len(full_route) - 1:
             next_p = full_route[idx+1]
-            next_px, next_py = next_p[0], next_p[1]
-            # Ángulo en el sistema de imagen
-            delta_x = next_px - px
-            delta_y = -(next_py - py) # Negativo porque Y imagen va al revés
-            yaw = np.arctan2(delta_y, delta_x)
-            yaw_deg = np.degrees(yaw)
+            delta_x = next_p[0] - px
+            delta_y = -(next_p[1] - py)
+            yaw_deg = np.degrees(np.arctan2(delta_y, delta_x))
         else:
-            yaw_deg = 0.0
+            yaw_deg = final_yaml_data[-1]['yaw'] if final_yaml_data else 0.0
 
         point_dict = {
-            'name': f"Punto_{idx}",
+            'name': f"Fila_P{idx}",
             'x': float(world_x),
             'y': float(world_y),
             'yaw': float(yaw_deg)
         }
         final_yaml_data.append(point_dict)
 
-    # Guardar
     with open(OUTPUT_YAML, 'w') as f:
         yaml.dump(final_yaml_data, f)
 
-    print(f"💾 Ruta guardada con {len(full_route)} puntos en: {OUTPUT_YAML}")
-    print("👀 Abriendo visualización... (Pulsa una tecla en la imagen para cerrar)")
+    print(f"\n✅ Ruta calculada: {len(full_route)} puntos.")
+    print("👀 Se abrirá una ventana para verificar. PULSA UNA TECLA PARA GUARDAR.")
     
-    cv2.imshow("Ruta Conectada", debug_img)
+    cv2.imshow("Ruta ZigZag", debug_img)
+    cv2.imwrite(OUTPUT_IMG, debug_img)
+    print(f"📸 Imagen guardada en: {OUTPUT_IMG}")
+    
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
