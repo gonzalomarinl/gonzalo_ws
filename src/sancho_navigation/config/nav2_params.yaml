@@ -1,6 +1,6 @@
 amcl:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False # <--- CORREGIDO: Debe coincidir con el entorno (Real/Sim)
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -13,14 +13,13 @@ amcl:
     min_particles: 500
     max_particles: 2000
     set_initial_pose: true
-    initial_pose: {x: -2.0, y: -0.5, z: 0.0, yaw: 0.0} # Coincide con tu spawn
-    # --- TOLERANCIA OPTIMIZADA (Sincronización real) ---
-    transform_tolerance: 0.2 # Reducido de 10.0
+    initial_pose: {x: -2.0, y: -0.5, z: 0.0, yaw: 0.0}
+    transform_tolerance: 0.2
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
 
 bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False # <--- CORREGIDO
     global_frame: map
     robot_base_frame: base_footprint
     odom_topic: /odom
@@ -57,10 +56,10 @@ bt_navigator:
 
 controller_server:
   ros__parameters:
-    use_sim_time: True
-    controller_frequency: 10.0 # Subido de 5.0 para mayor fluidez en Dual Boot
+    use_sim_time: False # <--- CORREGIDO
+    controller_frequency: 10.0
     min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.0 # Corregido: robot diferencial
+    min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
@@ -98,7 +97,7 @@ controller_server:
       sim_time: 1.7
       linear_granularity: 0.05
       angular_granularity: 0.025
-      transform_tolerance: 0.2 # Ajustado para Dual Boot
+      transform_tolerance: 0.2
       xy_goal_tolerance: 0.25
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
@@ -118,17 +117,17 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0 # Subido para respuesta rápida
+      update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
       robot_base_frame: base_footprint
-      use_sim_time: True
+      use_sim_time: False # <--- CORREGIDO
       rolling_window: true
       width: 3
       height: 3
       resolution: 0.05
       robot_radius: 0.105
-      transform_tolerance: 0.2 # Ajustado
+      transform_tolerance: 0.2
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -160,11 +159,11 @@ global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_footprint
-      use_sim_time: True
+      use_sim_time: False # <--- CORREGIDO
       robot_radius: 0.105
       resolution: 0.05
       track_unknown_space: true
-      transform_tolerance: 0.2 # Ajustado
+      transform_tolerance: 0.2
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -188,22 +187,22 @@ global_costmap:
 
 map_server:
   ros__parameters:
-    use_sim_time: True
-    yaml_filename: "/home/gonzalo/gonzalo_ws/src/sancho_navigation/maps/greenhouse_map.yaml"
+    use_sim_time: False # <--- CORREGIDO
+    # Se elimina la ruta absoluta fija para que el launch inyecte el mapa dinámicamente
 
 planner_server:
   ros__parameters:
     expected_planner_frequency: 20.0
-    use_sim_time: True
+    use_sim_time: False # <--- CORREGIDO
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 1
+      tolerance: 1.0
       use_astar: false
       allow_unknown: true
 
 lifecycle_manager:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False # <--- CORREGIDO
     autostart: true
     node_names: ['map_server', 'amcl', 'controller_server', 'planner_server', 'bt_navigator', 'behavior_server', 'waypoint_follower']
