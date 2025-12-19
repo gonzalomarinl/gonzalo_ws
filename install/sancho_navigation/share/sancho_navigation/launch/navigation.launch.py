@@ -7,55 +7,64 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 1. Directorios clave
+    # 1. DEFINICIÓN DE DIRECTORIOS Y RUTAS ABSOLUTAS (STRINGS PUROS)
+    # Esto asegura que Python calcule la ruta ANTES de que ROS empiece a pensar
     sancho_nav_dir = get_package_share_directory('sancho_navigation')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     
-    # 2. Argumentos de lanzamiento
-    # Aunque definimos la variable aquí, abajo la forzaremos a 'true' para evitar fallos
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    
-    map_yaml_file = LaunchConfiguration('map', 
-        default=os.path.join(sancho_nav_dir, 'maps', 'greenhouse_map.yaml'))
-        
-    params_file = LaunchConfiguration('params_file', 
-        default=os.path.join(sancho_nav_dir, 'config', 'nav2_params.yaml'))
+    map_file_path = os.path.join(sancho_nav_dir, 'maps', 'greenhouse_map.yaml')
+    params_file_path = os.path.join(sancho_nav_dir, 'config', 'nav2_params.yaml')
 
-    # 3. Declaración de argumentos (para poder cambiarlos desde terminal si hiciera falta)
+    # 2. CONFIGURACIÓN DE LANZAMIENTO (VARIABLES ROS)
+    # Estas variables leerán lo que venga de la terminal o tomarán el default
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    map_yaml = LaunchConfiguration('map')
+    params_file = LaunchConfiguration('params_file')
+    autostart = LaunchConfiguration('autostart')
+
+    # 3. DECLARACIÓN DE ARGUMENTOS
+    # Aquí usamos las rutas 'string' calculadas arriba como default
     declare_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time', default_value='true',
-        description='Usar tiempo de simulación si es True (Gazebo)')
-    
-    declare_map_yaml = DeclareLaunchArgument(
-        'map', default_value=map_yaml_file,
-        description='Ruta completa al archivo del mapa .yaml')
-        
-    declare_params_file = DeclareLaunchArgument(
-        'params_file', default_value=params_file,
-        description='Ruta completa al archivo de parámetros nav2')
+        'use_sim_time',
+        default_value='true',
+        description='Usar tiempo de simulación (Gazebo)')
 
-    # 4. Incluir el launch principal de Nav2 (Bringup)
+    declare_map_yaml = DeclareLaunchArgument(
+        'map',
+        default_value=map_file_path, # <--- CAMBIO CLAVE: Pasamos la ruta, no la config
+        description='Ruta completa al archivo del mapa .yaml')
+
+    declare_params_file = DeclareLaunchArgument(
+        'params_file',
+        default_value=params_file_path,
+        description='Ruta al archivo de parametros nav2')
+        
+    declare_autostart = DeclareLaunchArgument(
+        'autostart',
+        default_value='true',
+        description='Arrancar automáticamente el stack de navegación')
+
+    # 4. INCLUIR EL LAUNCH DE NAV2
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
         ),
         launch_arguments={
-            'use_sim_time': 'true',   # <--- CAMBIO CRÍTICO: Forzado a 'true'
-            'map': map_yaml_file,
+            'use_sim_time': use_sim_time,
+            'map': map_yaml,
             'params_file': params_file,
-            'autostart': 'true'
+            'autostart': autostart
         }.items()
     )
 
-    # 5. Añadir RViz (Visualizador)
-    # Es vital pasarle también use_sim_time para que no de error de TF
+    # 5. RVIZ
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
         output='screen',
         parameters=[{'use_sim_time': True}],
-        # Si tienes una config de rviz guardada, descomenta la línea de abajo:
+        # Opcional: Cargar config propia si la tienes
         # arguments=['-d', os.path.join(sancho_nav_dir, 'rviz', 'nav2_view.rviz')]
     )
 
@@ -63,6 +72,7 @@ def generate_launch_description():
         declare_use_sim_time,
         declare_map_yaml,
         declare_params_file,
+        declare_autostart,
         nav2_bringup_launch,
         rviz_node
     ])
