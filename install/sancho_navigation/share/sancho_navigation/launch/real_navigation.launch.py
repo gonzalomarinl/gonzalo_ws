@@ -20,7 +20,7 @@ def generate_launch_description():
         
     # Nota: Aquí usamos el nav2_params.yaml actual
     params_file = LaunchConfiguration('params_file', 
-        default=os.path.join(sancho_nav_dir, 'config', 'nav2_params.yaml'))
+        default=os.path.join(sancho_nav_dir, 'config', 'nav2_params_real.yaml'))
 
     # 3. Declaración de argumentos
     declare_use_sim_time = DeclareLaunchArgument(

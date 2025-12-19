@@ -7,31 +7,30 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 1. DEFINICIÓN DE DIRECTORIOS Y RUTAS ABSOLUTAS (STRINGS PUROS)
-    # Esto asegura que Python calcule la ruta ANTES de que ROS empiece a pensar
+    # 1. DEFINICIÓN DE DIRECTORIOS
     sancho_nav_dir = get_package_share_directory('sancho_navigation')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     
     map_file_path = os.path.join(sancho_nav_dir, 'maps', 'greenhouse_map.yaml')
+    
+    # --- SIMULACIÓN: Usamos el archivo de parámetros SIM ---
     params_file_path = os.path.join(sancho_nav_dir, 'config', 'nav2_params_sim.yaml')
 
-    # 2. CONFIGURACIÓN DE LANZAMIENTO (VARIABLES ROS)
-    # Estas variables leerán lo que venga de la terminal o tomarán el default
+    # 2. CONFIGURACIÓN DE LANZAMIENTO
     use_sim_time = LaunchConfiguration('use_sim_time')
     map_yaml = LaunchConfiguration('map')
     params_file = LaunchConfiguration('params_file')
     autostart = LaunchConfiguration('autostart')
 
     # 3. DECLARACIÓN DE ARGUMENTOS
-    # Aquí usamos las rutas 'string' calculadas arriba como default
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='true',
+        default_value='true',  # <--- TRUE PORQUE ES SIMULACIÓN
         description='Usar tiempo de simulación (Gazebo)')
 
     declare_map_yaml = DeclareLaunchArgument(
         'map',
-        default_value=map_file_path, # <--- CAMBIO CLAVE: Pasamos la ruta, no la config
+        default_value=map_file_path,
         description='Ruta completa al archivo del mapa .yaml')
 
     declare_params_file = DeclareLaunchArgument(
@@ -63,9 +62,8 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        parameters=[{'use_sim_time': True}],
-        # Opcional: Cargar config propia si la tienes
-        # arguments=['-d', os.path.join(sancho_nav_dir, 'rviz', 'nav2_view.rviz')]
+        parameters=[{'use_sim_time': use_sim_time}],
+        arguments=['-d', os.path.join(sancho_nav_dir, 'rviz', 'nav2_view.rviz')]
     )
 
     return LaunchDescription([

@@ -11,7 +11,8 @@ setup.py
 config/mapper_params_online_async.yaml
 config/mapper_params_real.yaml
 config/my_route.yaml
-config/nav2_params.yaml
+config/nav2_params_real.yaml
+config/nav2_params_sim.yaml
 launch/navigation.launch.py
 launch/real_navigation.launch.py
 launch/simulation.launch.py

@@ -2,20 +2,21 @@ slam_toolbox:
   ros__parameters:
 
     # --- PARÁMETROS PARA ROBOT REAL ---
-    use_sim_time: false         # <--- Importante: Falso para robot real
-    scan_topic: /scan_1st       # <--- Tu topic original
+    use_sim_time: false         # <--- Falso para robot real
+    scan_topic: /scan           # <--- Asegúrate que tu lidar publica aquí (o pon /scan_1st si es tu caso)
     base_frame: base_footprint
     odom_frame: odom
     map_frame: map
     mode: mapping 
     
-    # Plugin params (Igual que el otro)
+    # Plugin params
     solver_plugin: solver_plugins::CeresSolver
     ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
     ceres_preconditioner: SCHUR_JACOBI
     ceres_trust_strategy: LEVENBERG_MARQUARDT
     ceres_dogleg_type: TRADITIONAL_DOGLEG
-    ceres_loss_function: None
+    # --- CORRECCIÓN CRÍTICA AQUÍ ABAJO (Añadidas comillas) ---
+    ceres_loss_function: "None"
 
     # General Parameters
     debug_logging: false
