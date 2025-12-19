@@ -22,6 +22,8 @@ data_files = [
     ('share/' + package_name + '/config', glob('config/*.yaml')),
     ('share/' + package_name + '/worlds', glob('worlds/*.world')),
     ('share/' + package_name + '/maps', glob('maps/*')),
+    # --- CORRECCIÓN 1: AÑADIR LAS FOTOS DE PRUEBA ---
+    ('share/' + package_name + '/test_images', glob('test_images/*')),
 ]
 
 # Añadimos todos los archivos que haya dentro de 'models' automáticamente
@@ -41,10 +43,21 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            # El navegador principal
             'greenhouse_navigator = sancho_navigation.greenhouse_navigator:main',
-            'waypoint_saver = sancho_navigation.waypoint_saver:main',
+            
+            # --- CORRECCIÓN 2: AÑADIDO EL GENERADOR DE RUTAS NUEVO ---
+            # Nota: apunta a la función generate_route dentro del archivo lineal_route_generator
+            'lineal_route_generator = sancho_navigation.lineal_route_generator:generate_route',
+            
+            # --- CORRECCIÓN 3: COMENTADOS LOS SCRIPTS QUE NO EXISTEN EN SRC ---
+            # Si en el futuro creas estos archivos .py, descomenta estas líneas:
+            # 'waypoint_saver = sancho_navigation.waypoint_saver:main',
+            # 'plant_doctor = sancho_navigation.plant_doctor:main',
+            
+            # Mantenemos este si el archivo route_generator.py viejo sigue ahí, 
+            # aunque recomiendo usar solo el lineal.
             'route_generator = sancho_navigation.route_generator:main',
-            'plant_doctor = sancho_navigation.plant_doctor:main',
         ],
     },
 )
