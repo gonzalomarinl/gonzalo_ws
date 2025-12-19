@@ -29,6 +29,7 @@ resource/sancho_navigation
 sancho_navigation/__init__.py
 sancho_navigation/greenhouse_navigator.py
 sancho_navigation/lineal_route_generator.py
+sancho_navigation/plant_doctor.py
 sancho_navigation/route_generator.py
 test/test_copyright.py
 test/test_flake8.py
