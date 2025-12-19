@@ -11,7 +11,7 @@ OUTPUT_PREVIEW_PATH = f"{BASE_PATH}/maps/route_preview.png"
 
 # 🚜 PARÁMETROS AGRÍCOLAS
 OFFSET_PLANTAS = 0.60   # 60 cm de separación
-MARGEN_CABECERA = 1.0   # 1 metro extra al inicio/final
+MARGEN_CABECERA = 0.4   # 1 metro extra al inicio/final
 
 # --- FUNCIONES AUXILIARES ---
 def get_quaternion(yaw_rad):
