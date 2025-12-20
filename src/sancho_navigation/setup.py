@@ -57,7 +57,6 @@ setup(
             
             # Mantenemos este si el archivo route_generator.py viejo sigue ahí, 
             # aunque recomiendo usar solo el lineal.
-            'route_generator = sancho_navigation.route_generator:main',
-        ],
+            'route_visualizer = sancho_navigation.route_visualizer:main',        ],
     },
 )

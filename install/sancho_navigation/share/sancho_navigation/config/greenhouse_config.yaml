@@ -1,0 +1,11 @@
+greenhouse_geometry:
+  lane_offset: 1.0
+  num_rows: 3
+  p1_end:
+  - 3.4284486628217143
+  - 0.369610463883069
+  p1_start:
+  - -3.245928393156705
+  - 0.6703743496577492
+  row_separation: 3.140084049013661
+  step_distance: 0.5

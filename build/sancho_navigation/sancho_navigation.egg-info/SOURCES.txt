@@ -8,9 +8,9 @@ setup.py
 ../../build/sancho_navigation/sancho_navigation.egg-info/requires.txt
 ../../build/sancho_navigation/sancho_navigation.egg-info/top_level.txt
 ../../build/sancho_navigation/sancho_navigation.egg-info/zip-safe
+config/greenhouse_config.yaml
 config/mapper_params_online_async.yaml
 config/mapper_params_real.yaml
-config/my_route.yaml
 config/nav2_params_real.yaml
 config/nav2_params_sim.yaml
 launch/navigation.launch.py
@@ -23,7 +23,6 @@ maps/greenhouse_raw.pgm
 maps/greenhouse_raw.yaml
 maps/prueba.pgm
 maps/prueba.yaml
-maps/route_preview.png
 models/tomato_model.pth
 models/bush_2/model.config
 models/bush_2/model.sdf
@@ -33,8 +32,8 @@ models/bush_2/meshes/bush_2.obj
 resource/sancho_navigation
 sancho_navigation/__init__.py
 sancho_navigation/greenhouse_navigator.py
-sancho_navigation/lineal_route_generator.py
 sancho_navigation/plant_doctor.py
+sancho_navigation/route_visualizer.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py

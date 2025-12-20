@@ -48,3 +48,9 @@ cd ~/gonzalo_ws && colcon build --symlink-install && source install/setup.bash
 Instalar dependencias Python (si fallan)
 
 pip3 install "numpy<2.0" "opencv-python<4.10"
+
+LANZAR NAVEGACIONES:
+
+ros2 run sancho_navigation greenhouse_navigator --mode sim
+
+ros2 run sancho_navigation greenhouse_navigator --mode real

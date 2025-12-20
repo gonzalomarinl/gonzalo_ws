@@ -4,8 +4,8 @@ poses:
       frame_id: map
     pose:
       position:
-        x: -4.3300
-        y: -0.7820
+        x: -5.2700
+        y: -2.6500
         z: 0.0
       orientation:
         x: 0.0000
@@ -16,8 +16,8 @@ poses:
       frame_id: map
     pose:
       position:
-        x: 3.9200
-        y: -0.7820
+        x: 5.1300
+        y: -2.6500
         z: 0.0
       orientation:
         x: 0.0000
@@ -28,8 +28,8 @@ poses:
       frame_id: map
     pose:
       position:
-        x: 3.9200
-        y: 2.4680
+        x: 5.1300
+        y: 9.7000
         z: 0.0
       orientation:
         x: 0.0000
@@ -40,104 +40,8 @@ poses:
       frame_id: map
     pose:
       position:
-        x: -4.3300
-        y: 2.4680
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 1.0000
-        w: 0.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: -3.6800
-        y: 2.2680
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 0.0000
-        w: 1.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: 4.9200
-        y: 2.2680
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 0.0000
-        w: 1.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: 4.9200
-        y: 5.4680
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 1.0000
-        w: 0.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: -3.6800
-        y: 5.4680
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 1.0000
-        w: 0.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: -3.0300
-        y: 5.3180
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 0.0000
-        w: 1.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: 5.5200
-        y: 5.3180
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 0.0000
-        w: 1.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: 5.5200
-        y: 8.2680
-        z: 0.0
-      orientation:
-        x: 0.0000
-        y: 0.0000
-        z: 1.0000
-        w: 0.0000
-  - header:
-      frame_id: map
-    pose:
-      position:
-        x: -3.0300
-        y: 8.2680
+        x: -5.2700
+        y: 9.7000
         z: 0.0
       orientation:
         x: 0.0000
