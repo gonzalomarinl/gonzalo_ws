@@ -13,6 +13,7 @@ amcl:
     min_particles: 500
     max_particles: 2000
     set_initial_pose: true
+    # Sincronizado con tu posición fuera de la fila
     initial_pose: {x: -3.0, y: -1.0, z: 0.0, yaw: 0.0}
     transform_tolerance: 1.0
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
@@ -72,7 +73,7 @@ behavior_server:
       plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: odom
     robot_base_frame: base_footprint
-    transform_tolerance: 0.1
+    transform_tolerance: 1.0
     use_sim_time: true
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
@@ -82,7 +83,7 @@ behavior_server:
 controller_server:
   ros__parameters:
     use_sim_time: true
-    controller_frequency: 10.0 # Bajado a 10Hz para aligerar la CPU en simulación
+    controller_frequency: 5.0 # Bajado para evitar saturación y lag de TF
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.001
@@ -90,6 +91,7 @@ controller_server:
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"] 
     controller_plugins: ["FollowPath"]
+    current_goal_checker: "general_goal_checker" # Especificado para eliminar WARN
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.5
@@ -122,15 +124,14 @@ controller_server:
       sim_time: 1.7
       linear_granularity: 0.05
       angular_granularity: 0.025
-      transform_tolerance: 1.0
+      transform_tolerance: 2.0 # Aumentado para tolerar lag de simulación
       xy_goal_tolerance: 0.25
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      # --- CRITICS ESTÁNDAR PARA PASILLOS ---
       critics: ["Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
       BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0       # Prioridad alta para seguir la línea central
+      PathAlign.scale: 32.0       
       PathAlign.forward_point_distance: 0.1
       GoalAlign.scale: 24.0
       GoalAlign.forward_point_distance: 0.1
@@ -149,14 +150,13 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      # --- CORRECCIÓN 1: Radio Real del TB3 Burger ---
       robot_radius: 0.105 
-      transform_tolerance: 1.0
+      transform_tolerance: 2.0 # Aumentado para tolerar lag de simulación
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 10.0 # Paredes de coste "finas"
-        inflation_radius: 0.45    # Radio seguro pero no invasivo
+        cost_scaling_factor: 10.0 
+        inflation_radius: 0.45    
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -184,11 +184,10 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_footprint
       use_sim_time: true
-      # --- CORRECCIÓN 2: Radio Real ---
       robot_radius: 0.105 
       resolution: 0.05
       track_unknown_space: true
-      transform_tolerance: 1.0
+      transform_tolerance: 2.0 # Aumentado para tolerar lag de simulación
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -217,7 +216,7 @@ map_server:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 5.0 # Bajado para estabilidad
     use_sim_time: true
     planner_plugins: ["GridBased"]
     GridBased:
@@ -240,7 +239,7 @@ waypoint_follower:
 velocity_smoother:
   ros__parameters:
     use_sim_time: true
-    smoothing_frequency: 20.0
+    smoothing_frequency: 10.0 # Bajado
     scale_velocities: False
     feedback: "OPEN_LOOP"
     max_velocity: [0.22, 0.0, 1.0]
