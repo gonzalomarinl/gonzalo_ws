@@ -1,5 +1,4 @@
 [console_scripts]
 greenhouse_navigator = sancho_navigation.greenhouse_navigator:main
-lineal_route_generator = sancho_navigation.lineal_route_generator:generate_route
 route_visualizer = sancho_navigation.route_visualizer:main
 

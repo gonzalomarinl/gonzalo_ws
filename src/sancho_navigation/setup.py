@@ -5,6 +5,7 @@ from glob import glob
 package_name = 'sancho_navigation'
 
 # --- FUNCIÓN AUXILIAR PARA COPIAR CARPETAS RECURSIVAMENTE ---
+# Necesario para copiar todos los modelos 3D y texturas de la carpeta 'models'
 def package_files(directory):
     paths = []
     for (path, directories, filenames) in os.walk(directory):
@@ -18,15 +19,19 @@ def package_files(directory):
 data_files = [
     ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
     ('share/' + package_name, ['package.xml']),
+    # Copiar launch files
     ('share/' + package_name + '/launch', glob('launch/*.py')),
+    # Copiar configuración YAML
     ('share/' + package_name + '/config', glob('config/*.yaml')),
+    # Copiar mundos de Gazebo
     ('share/' + package_name + '/worlds', glob('worlds/*.world')),
+    # Copiar mapas (.pgm y .yaml)
     ('share/' + package_name + '/maps', glob('maps/*')),
-    # --- CORRECCIÓN 1: AÑADIR LAS FOTOS DE PRUEBA ---
+    # Copiar imágenes de prueba para el modo Simulación
     ('share/' + package_name + '/test_images', glob('test_images/*')),
 ]
 
-# Añadimos todos los archivos que haya dentro de 'models' automáticamente
+# Añadimos recursivamente todo el contenido de la carpeta 'models' (meshes, materials, etc.)
 data_files.extend(package_files('models'))
 
 setup(
@@ -37,26 +42,20 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='gonzalomarinl',
-    maintainer_email='gonzalomarinl@todo.todo',
-    description='Navigation package for greenhouse robot',
+    maintainer_email='gonzalomarinl@uma.es', # Corregido email genérico
+    description='Navigation package for greenhouse robot (Sancho)',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # El navegador principal
+            # 1. El cerebro principal (Máquina de estados + Navegación)
             'greenhouse_navigator = sancho_navigation.greenhouse_navigator:main',
             
-            # --- CORRECCIÓN 2: AÑADIDO EL GENERADOR DE RUTAS NUEVO ---
-            # Nota: apunta a la función generate_route dentro del archivo lineal_route_generator
-            'lineal_route_generator = sancho_navigation.lineal_route_generator:generate_route',
+            # 2. La herramienta de calibración y generación de rutas (Bolas rojas)
+            'route_visualizer = sancho_navigation.route_visualizer:main',
             
-            # --- CORRECCIÓN 3: COMENTADOS LOS SCRIPTS QUE NO EXISTEN EN SRC ---
-            # Si en el futuro creas estos archivos .py, descomenta estas líneas:
-            # 'waypoint_saver = sancho_navigation.waypoint_saver:main',
-            # 'plant_doctor = sancho_navigation.plant_doctor:main',
-            
-            # Mantenemos este si el archivo route_generator.py viejo sigue ahí, 
-            # aunque recomiendo usar solo el lineal.
-            'route_visualizer = sancho_navigation.route_visualizer:main',        ],
+            # NOTA: 'plant_doctor' no se registra aquí porque se ejecuta como 
+            # subproceso independiente o script directo.
+        ],
     },
 )
