@@ -52,7 +52,7 @@ def generate_launch_description():
         launch_arguments={
             'x_pose': '-3.0',
             'y_pose': '-1.0',
-            'z_pose': '0.01'
+            'z_pose': '0.0'
         }.items()
     )
 
