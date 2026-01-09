@@ -14,7 +14,7 @@ amcl:
     max_particles: 2000
     set_initial_pose: true
     initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0} # Ajusta esto a donde inicie tu robot real
-    transform_tolerance: 1.0
+    transform_tolerance: 2.0
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
 
 bt_navigator:
