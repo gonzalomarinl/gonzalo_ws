@@ -24,7 +24,7 @@ def analyze_plant(image_path, point_name, mode='simulation'):
     diagnostico = "Saludable"
     confianza = 0.0
 
-    if mode == 'simulation':
+    if mode == 'sim':
         # Buscamos imágenes de prueba
         test_dir = os.path.expanduser('~/gonzalo_ws/src/sancho_navigation/test_images')
         valid_extensions = ('*.jpg', '*.JPG', '*.png', '*.jpeg')
