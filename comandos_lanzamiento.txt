@@ -19,18 +19,23 @@ ros2 run turtlebot3_teleop teleop_keyboard
 
 ros2 run nav2_map_server map_saver_cli -f ~/gonzalo_ws/src/sancho_navigation/maps/greenhouse_map
 
-6. Generar Ruta Matemática (Zigzag)
 
-python3 ~/gonzalo_ws/src/sancho_navigation/sancho_navigation/lineal_route_generator.py
 
 7. Ejecutar Patrulla Autónoma (Simulación)
 
 ros2 run sancho_navigation greenhouse_navigator --ros-args -p execution_mode:=simulation
 
 ESCENARIO 2: ROBOT REAL
+
+0. Lanzar drivers robot real
+
+ros2 launch turtlebot3_bringup robot.launch.py
+
 1. Mapear (Crear mapa real) (Nota: Ajusta la ruta si tu usuario no es gonzalomarin)
 
 ros2 launch sancho_navigation slam.launch.py use_sim_time:='false' params_file:=/home/gonzalomarin/gonzalo_ws/src/sancho_navigation/config/mapper_params_real.yaml
+
+ros2 run nav2_map_server map_saver_cli -f ~/gonzalo_ws/src/sancho_navigation/maps/greenhouse_map_real
 
 2. Navegar (Usar mapa existente)
 
