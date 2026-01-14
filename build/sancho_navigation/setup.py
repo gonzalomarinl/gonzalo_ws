@@ -1,1 +1,0 @@
-/home/gonzalomarin/gonzalo_ws/src/sancho_navigation/setup.py

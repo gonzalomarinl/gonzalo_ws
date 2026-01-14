@@ -1,0 +1,66 @@
+[0.568s] Invoking command in '/home/gonzalomarin/gonzalo_ws/build/sancho_navigation': PYTHONPATH=/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build
+[0.811s] running develop
+[0.976s] Removing /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho-navigation.egg-link (link to .)
+[0.996s] Invoked command in '/home/gonzalomarin/gonzalo_ws/build/sancho_navigation' returned '0': PYTHONPATH=/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build
+[0.997s] Invoking command in '/home/gonzalomarin/gonzalo_ws/src/sancho_navigation': PYTHONPATH=/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sancho_navigation build --build-base /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build install --record /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/install.log --single-version-externally-managed install_data --force
+[1.219s] running egg_info
+[1.219s] writing ../../build/sancho_navigation/sancho_navigation.egg-info/PKG-INFO
+[1.220s] writing dependency_links to ../../build/sancho_navigation/sancho_navigation.egg-info/dependency_links.txt
+[1.220s] writing entry points to ../../build/sancho_navigation/sancho_navigation.egg-info/entry_points.txt
+[1.220s] writing requirements to ../../build/sancho_navigation/sancho_navigation.egg-info/requires.txt
+[1.220s] writing top-level names to ../../build/sancho_navigation/sancho_navigation.egg-info/top_level.txt
+[1.221s] reading manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+[1.222s] writing manifest file '../../build/sancho_navigation/sancho_navigation.egg-info/SOURCES.txt'
+[1.222s] running build
+[1.223s] running build_py
+[1.223s] creating /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build
+[1.223s] creating /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib
+[1.223s] creating /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+[1.223s] copying sancho_navigation/route_visualizer.py -> /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+[1.223s] copying sancho_navigation/plant_doctor.py -> /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+[1.223s] copying sancho_navigation/__init__.py -> /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+[1.223s] copying sancho_navigation/greenhouse_navigator.py -> /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation
+[1.223s] running install
+[1.223s] running install_lib
+[1.224s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+[1.224s] copying /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/route_visualizer.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+[1.224s] copying /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/plant_doctor.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+[1.224s] copying /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/__init__.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+[1.224s] copying /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build/lib/sancho_navigation/greenhouse_navigator.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation
+[1.225s] byte-compiling /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/route_visualizer.py to route_visualizer.cpython-310.pyc
+[1.226s] byte-compiling /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/plant_doctor.py to plant_doctor.cpython-310.pyc
+[1.227s] byte-compiling /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/__init__.py to __init__.cpython-310.pyc
+[1.227s] byte-compiling /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation/greenhouse_navigator.py to greenhouse_navigator.cpython-310.pyc
+[1.228s] running install_data
+[1.228s] copying resource/sancho_navigation -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+[1.228s] copying package.xml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation
+[1.228s] copying launch/simulation.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.229s] copying launch/real_navigation.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.229s] copying launch/slam.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.229s] copying launch/navigation.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.229s] copying config/nav2_params_real.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.229s] copying config/nav2_params_sim.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.229s] copying config/greenhouse_config.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.229s] copying config/mapper_params_online_async.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.229s] copying config/mapper_params_real.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.229s] copying worlds/greenhouse.world -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+[1.230s] copying maps/prueba.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.230s] copying maps/greenhouse_raw.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.230s] copying maps/greenhouse_map.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.231s] copying maps/prueba.pgm -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.231s] copying maps/greenhouse_raw.pgm -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.231s] copying maps/greenhouse_map.pgm -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.232s] copying models/tomato_model.pth -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+[1.314s] copying models/best_model_optimized.pth -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+[1.338s] copying models/bush_2/model.config -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+[1.338s] copying models/bush_2/model.sdf -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+[1.338s] copying models/bush_2/meshes/bush_2.obj -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.344s] copying models/bush_2/meshes/Green_Le.jpg -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.344s] copying models/bush_2/meshes/bush_2.mtl -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.344s] running install_egg_info
+[1.346s] Copying ../../build/sancho_navigation/sancho_navigation.egg-info to /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho_navigation-0.0.0-py3.10.egg-info
+[1.347s] running install_scripts
+[1.364s] Installing greenhouse_navigator script to /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.365s] Installing route_visualizer script to /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.365s] writing list of installed files to '/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/install.log'
+[1.382s] Invoked command in '/home/gonzalomarin/gonzalo_ws/src/sancho_navigation' returned '0': PYTHONPATH=/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sancho_navigation build --build-base /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build install --record /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/install.log --single-version-externally-managed install_data --force

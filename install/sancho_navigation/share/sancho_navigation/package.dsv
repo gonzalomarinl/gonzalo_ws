@@ -4,6 +4,3 @@ source;share/sancho_navigation/hook/pythonpath.sh
 source;share/sancho_navigation/hook/ament_prefix_path.ps1
 source;share/sancho_navigation/hook/ament_prefix_path.dsv
 source;share/sancho_navigation/hook/ament_prefix_path.sh
-source;../../build/sancho_navigation/share/sancho_navigation/hook/pythonpath_develop.ps1
-source;../../build/sancho_navigation/share/sancho_navigation/hook/pythonpath_develop.dsv
-source;../../build/sancho_navigation/share/sancho_navigation/hook/pythonpath_develop.sh
