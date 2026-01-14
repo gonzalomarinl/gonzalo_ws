@@ -7,8 +7,9 @@ import yaml
 import os
 import time
 import cv2
-# Eliminamos threading para evitar el conflicto "generator already executing"
+import threading  # <--- IMPORTANTE: Necesario para el executor
 from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor # <--- IMPORTANTE
 from geometry_msgs.msg import PoseStamped, Quaternion, Point
 from visualization_msgs.msg import Marker, MarkerArray
 from sensor_msgs.msg import Image
@@ -34,7 +35,6 @@ class CameraNode(Node):
         self.latest_image = None
         self.image_received = False
         
-        # Suscripción al topic de la cámara
         self.subscription = self.create_subscription(
             Image,
             '/camera/image_raw',
@@ -143,8 +143,6 @@ class GreenhouseMission:
         yaw_A = row_yaw - (math.pi / 2.0)
         yaw_B = row_yaw + (math.pi / 2.0)
 
-        print(f"📐 Generando ruta: {num_rows} filas | Longitud: {length:.2f}m")
-
         for i in range(num_rows):
             cx = p1[0] + (nx * row_sep * i)
             cy = p1[1] + (ny * row_sep * i)
@@ -182,10 +180,8 @@ class GreenhouseMission:
     def perform_detection_logic(self, waypoint_idx):
         print(f"🛑 PARADA {waypoint_idx}: Iniciando protocolo de inspección...", flush=True)
         
-        # IMPORTANTE: Forzamos unas cuantas actualizaciones de cámara antes de capturar
-        # para asegurarnos de que el buffer no tiene una imagen vieja
-        for _ in range(5):
-            rclpy.spin_once(self.camera_node, timeout_sec=0.1)
+        # Le damos un segundo para asegurar que el buffer tiene imágenes frescas
+        time.sleep(1.0)
             
         frame = self.camera_node.get_image()
         
@@ -201,9 +197,7 @@ class GreenhouseMission:
         full_path = os.path.join(self.save_dir, filename)
         cv2.imwrite(full_path, frame)
         
-        # Llamada al doctor
         analyze_plant(full_path, f"Punto_{waypoint_idx}", self.mode)
-        
         print(f"✅ Inspección del Punto {waypoint_idx} finalizada.\n", flush=True)
 
 def main():
@@ -213,60 +207,56 @@ def main():
     
     rclpy.init()
     
-    # 1. Crear nodo de cámara (SIN HILO / SIN THREAD)
+    # 1. Creamos el Navegador y el Nodo de Cámara
+    navigator = BasicNavigator()
     camera_node = CameraNode()
     
-    # 2. Preparar Misión
+    # 2. Configuración del MultiThreadedExecutor
+    # Esto permite que la cámara y el navegador funcionen en paralelo sin bloquearse
+    executor = MultiThreadedExecutor()
+    executor.add_node(camera_node)
+    executor.add_node(navigator) # El navegador es internamente un nodo
+    
+    # Lanzamos el executor en un hilo aparte
+    spin_thread = threading.Thread(target=executor.spin, daemon=True)
+    spin_thread.start()
+    
+    # 3. Preparar Misión
     mission = GreenhouseMission(args.mode, camera_node)
     route = mission.generate_snake_route()
     
-    # 3. Visualizador
+    # 4. Visualizador (también lo añadimos al executor)
     viz_node = RouteVisualizer(route)
+    executor.add_node(viz_node)
     viz_node.publish_markers() 
-    print("👀 Visualizador activado.")
 
-    # 4. Nav2
-    navigator = BasicNavigator()
+    # 5. Nav2 Activación
     print("⏳ Esperando a Nav2...", flush=True)
-    # Esta función bloquea, pero no necesitamos cámara aquí todavía
     navigator.waitUntilNav2Active()
 
     print(f"✅ Ruta calculada: {len(route)} paradas. ¡Despegamos!", flush=True)
     
-    # 5. EJECUCIÓN (Bucle Principal)
+    # 6. Bucle Principal
     for i, goal_pose in enumerate(route):
         print(f"🚀 [{i+1}/{len(route)}] Navegando...", flush=True)
         
-        # Refrescamos visualización
         viz_node.publish_markers()
-        
-        # Enviamos al robot
         navigator.goToPose(goal_pose)
 
-        # MIENTRAS VIAJA: Aquí es donde hacemos la magia de actualizar la cámara
-        # sin usar hilos que bloqueen a Nav2
+        # Ya no necesitamos llamar a spin_once manualmente, el hilo secundario lo hace
         while not navigator.isTaskComplete():
-            # Le damos un pequeño tiempo a la cámara para procesar mensajes
-            rclpy.spin_once(camera_node, timeout_sec=0.05)
-            # También podríamos chequear feedback aquí
-            # feedback = navigator.getFeedback()
+            pass
 
         result = navigator.getResult()
         if result == TaskResult.SUCCEEDED:
-            # Al llegar, ya podemos dedicar tiempo completo a la detección
             mission.perform_detection_logic(i+1)
         else:
             print(f"❌ Fallo en punto {i+1}. Abortando.")
-            navigator.lifecycleShutdown()
-            camera_node.destroy_node()
-            viz_node.destroy_node()
-            exit(1)
+            break
 
     print("🏁 ¡MISIÓN COMPLETADA!", flush=True)
     navigator.lifecycleShutdown()
-    camera_node.destroy_node()
-    viz_node.destroy_node()
-    exit(0)
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

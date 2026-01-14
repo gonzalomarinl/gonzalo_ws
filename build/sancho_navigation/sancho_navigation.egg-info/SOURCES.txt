@@ -23,6 +23,7 @@ maps/greenhouse_raw.pgm
 maps/greenhouse_raw.yaml
 maps/prueba.pgm
 maps/prueba.yaml
+models/best_model_optimized.pth
 models/tomato_model.pth
 models/bush_2/model.config
 models/bush_2/model.sdf

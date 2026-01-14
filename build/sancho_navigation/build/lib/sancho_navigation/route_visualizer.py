@@ -52,8 +52,8 @@ class InteractiveRouteMaker(Node):
         marker.scale.y = 0.2
         marker.scale.z = 0.2
         marker.color.a = 1.0
-        marker.color.r = 1.0 # ROJO
-        marker.color.g = 0.0
+        marker.color.r = 0.0 # ROJO
+        marker.color.g = 1.0
         marker.color.b = 0.0
         marker.points = self.waypoints
         marker_array.markers.append(marker)
