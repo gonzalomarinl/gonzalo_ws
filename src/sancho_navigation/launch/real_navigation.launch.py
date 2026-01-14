@@ -7,33 +7,34 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 1. Definición de rutas directas (Strings)
+    # 1. Definición de directorios
     sancho_nav_dir = get_package_share_directory('sancho_navigation')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     
-    # Ruta absoluta al mapa para evitar que llegue vacío
+    # 2. RUTAS FÍSICAS (Strings directos) - Esto soluciona el error del map_server
+    # Definimos las rutas como texto plano antes de crear los argumentos
     default_map_path = os.path.join(sancho_nav_dir, 'maps', 'greenhouse_map.yaml')
     default_params_path = os.path.join(sancho_nav_dir, 'config', 'nav2_params_real.yaml')
 
-    # 2. Declaración de argumentos de lanzamiento
-    # Usamos default_value con la ruta directa definida arriba
+    # 3. Declaración de argumentos de lanzamiento
+    # Usamos las rutas directas (strings) como 'default_value'
     declare_map_yaml = DeclareLaunchArgument(
         'map', 
         default_value=default_map_path,
-        description='Ruta completa al archivo del mapa .yaml')
+        description='Ruta absoluta al archivo del mapa .yaml')
 
     declare_params_file = DeclareLaunchArgument(
         'params_file', 
         default_value=default_params_path,
-        description='Ruta completa al archivo de parámetros nav2')
+        description='Ruta absoluta al archivo de parámetros nav2')
 
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', 
         default_value='false',
-        description='Falso para robot real')
+        description='Falso para el robot físico Sancho')
 
-    # 3. Incluir Nav2 Bringup
-    # Usamos LaunchConfiguration para capturar los valores de los argumentos
+    # 4. Incluir el launch principal de Nav2 (Bringup)
+    # Aquí usamos LaunchConfiguration para capturar los valores finales
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
@@ -46,7 +47,7 @@ def generate_launch_description():
         }.items()
     )
 
-    # 4. RViz
+    # 5. Nodo de RViz (Visualización)
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
