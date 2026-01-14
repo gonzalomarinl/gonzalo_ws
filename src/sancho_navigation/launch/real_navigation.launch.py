@@ -11,28 +11,26 @@ def generate_launch_description():
     sancho_nav_dir = get_package_share_directory('sancho_navigation')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     
-    # 2. Argumentos de lanzamiento configurados para REAL
-    # Cambiamos el default a 'false'
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    
-    map_yaml_file = LaunchConfiguration('map', 
-        default=os.path.join(sancho_nav_dir, 'maps', 'greenhouse_map.yaml'))
-        
-    # Nota: Aquí usamos el nav2_params.yaml actual
-    params_file = LaunchConfiguration('params_file', 
-        default=os.path.join(sancho_nav_dir, 'config', 'nav2_params_real.yaml'))
+    # Rutas físicas directas para evitar el error 'parameter yaml_filename is not initialized'
+    default_map_path = os.path.join(sancho_nav_dir, 'maps', 'greenhouse_map.yaml')
+    default_params_path = os.path.join(sancho_nav_dir, 'config', 'nav2_params_real.yaml')
 
-    # 3. Declaración de argumentos
+    # 2. Argumentos de lanzamiento (LaunchConfiguration)
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    map_yaml_file = LaunchConfiguration('map')
+    params_file = LaunchConfiguration('params_file')
+
+    # 3. Declaración de argumentos de entrada
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', default_value='false',
         description='Usar tiempo de simulación (Falso para robot real)')
     
     declare_map_yaml = DeclareLaunchArgument(
-        'map', default_value=map_yaml_file,
+        'map', default_value=default_map_path,
         description='Ruta completa al archivo del mapa .yaml')
         
     declare_params_file = DeclareLaunchArgument(
-        'params_file', default_value=params_file,
+        'params_file', default_value=default_params_path,
         description='Ruta completa al archivo de parámetros nav2')
 
     # 4. Incluir el launch principal de Nav2 (Bringup)
@@ -41,7 +39,7 @@ def generate_launch_description():
             os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
         ),
         launch_arguments={
-            'use_sim_time': 'false',   # <--- CONFIGURACIÓN PARA ROBOT REAL
+            'use_sim_time': use_sim_time,
             'map': map_yaml_file,
             'params_file': params_file,
             'autostart': 'true'
@@ -54,7 +52,8 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        parameters=[{'use_sim_time': False}], # Tiempo real
+        parameters=[{'use_sim_time': False}], # Tiempo real siempre en RViz para hardware
+        arguments=['-d', os.path.join(sancho_nav_dir, 'rviz', 'nav2_view.rviz')]
     )
 
     return LaunchDescription([
