@@ -1,1 +1,1 @@
-/home/mapir/gonzalo_ws/build/sancho_navigation/launch/simulation.launch.py
+/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/launch/simulation.launch.py

@@ -1,1 +1,1 @@
-/home/mapir/gonzalo_ws/src/sancho_navigation/launch/navigation.launch.py
+/home/gonzalomarin/gonzalo_ws/src/sancho_navigation/launch/navigation.launch.py

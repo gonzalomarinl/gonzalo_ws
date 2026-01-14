@@ -1,0 +1,60 @@
+[0.565s] Invoking command in '/home/gonzalomarin/gonzalo_ws/build/sancho_navigation': PYTHONPATH=/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build --no-deps symlink_data
+[0.826s] running develop
+[0.994s] running egg_info
+[0.995s] creating sancho_navigation.egg-info
+[0.995s] writing sancho_navigation.egg-info/PKG-INFO
+[0.995s] writing dependency_links to sancho_navigation.egg-info/dependency_links.txt
+[0.995s] writing entry points to sancho_navigation.egg-info/entry_points.txt
+[0.995s] writing requirements to sancho_navigation.egg-info/requires.txt
+[0.995s] writing top-level names to sancho_navigation.egg-info/top_level.txt
+[0.995s] writing manifest file 'sancho_navigation.egg-info/SOURCES.txt'
+[0.997s] reading manifest file 'sancho_navigation.egg-info/SOURCES.txt'
+[0.997s] writing manifest file 'sancho_navigation.egg-info/SOURCES.txt'
+[0.999s] running build_ext
+[0.999s] Creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho-navigation.egg-link (link to .)
+[0.999s] Installing greenhouse_navigator script to /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.000s] Installing route_visualizer script to /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+[1.000s] 
+[1.000s] Installed /home/gonzalomarin/gonzalo_ws/build/sancho_navigation
+[1.000s] running symlink_data
+[1.000s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/ament_index
+[1.000s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index
+[1.000s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+[1.000s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/resource/sancho_navigation -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+[1.000s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/package.xml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation
+[1.000s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.000s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/launch/simulation.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.000s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/launch/real_navigation.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.000s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/launch/slam.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.000s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/launch/navigation.launch.py -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+[1.001s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/config/nav2_params_real.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/config/nav2_params_sim.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/config/greenhouse_config.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/config/mapper_params_online_async.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/config/mapper_params_real.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+[1.001s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/worlds/greenhouse.world -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+[1.001s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/maps/prueba.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/maps/prueba.pgm -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/maps/greenhouse_raw.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/maps/greenhouse_map.yaml -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/maps/greenhouse_raw.pgm -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.001s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/maps/greenhouse_map.pgm -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+[1.002s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/test_images/test2.JPG -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/test_images/test3.JPG -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/test_images/test4.JPG -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/test_images/test1.JPG -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+[1.002s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/tomato_model.pth -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/best_model_optimized.pth -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+[1.002s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/bush_2/model.config -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/bush_2/model.sdf -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+[1.002s] creating /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/bush_2/meshes/bush_2.obj -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/bush_2/meshes/Green_Le.jpg -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.002s] symbolically linking /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/models/bush_2/meshes/bush_2.mtl -> /home/gonzalomarin/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+[1.025s] Invoked command in '/home/gonzalomarin/gonzalo_ws/build/sancho_navigation' returned '0': PYTHONPATH=/home/gonzalomarin/gonzalo_ws/build/sancho_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/gonzalomarin/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/gonzalomarin/gonzalo_ws/build/sancho_navigation/build --no-deps symlink_data
