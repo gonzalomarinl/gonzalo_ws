@@ -1,11 +1,1 @@
-greenhouse_geometry:
-  lane_offset: 1.1
-  num_rows: 3
-  p1_end:
-  - 3.3964539720317943
-  - 0.8431399226291826
-  p1_start:
-  - -3.6093740104279335
-  - 0.6138599755776407
-  row_separation: 3.249494457738075
-  step_distance: 1.0
+/home/mapir/gonzalo_ws/build/sancho_navigation/config/greenhouse_config.yaml

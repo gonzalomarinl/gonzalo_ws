@@ -1,4 +1,0 @@
-[console_scripts]
-greenhouse_navigator = sancho_navigation.greenhouse_navigator:main
-route_visualizer = sancho_navigation.route_visualizer:main
-

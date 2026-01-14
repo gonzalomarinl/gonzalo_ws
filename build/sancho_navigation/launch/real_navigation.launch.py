@@ -1,0 +1,1 @@
+/home/mapir/gonzalo_ws/src/sancho_navigation/launch/real_navigation.launch.py

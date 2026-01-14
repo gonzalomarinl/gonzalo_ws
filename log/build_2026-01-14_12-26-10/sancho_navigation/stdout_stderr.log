@@ -1,0 +1,58 @@
+running develop
+running egg_info
+creating sancho_navigation.egg-info
+writing sancho_navigation.egg-info/PKG-INFO
+writing dependency_links to sancho_navigation.egg-info/dependency_links.txt
+writing entry points to sancho_navigation.egg-info/entry_points.txt
+writing requirements to sancho_navigation.egg-info/requires.txt
+writing top-level names to sancho_navigation.egg-info/top_level.txt
+writing manifest file 'sancho_navigation.egg-info/SOURCES.txt'
+reading manifest file 'sancho_navigation.egg-info/SOURCES.txt'
+writing manifest file 'sancho_navigation.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/mapir/gonzalo_ws/install/sancho_navigation/lib/python3.10/site-packages/sancho-navigation.egg-link (link to .)
+Installing greenhouse_navigator script to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+Installing route_visualizer script to /home/mapir/gonzalo_ws/install/sancho_navigation/lib/sancho_navigation
+
+Installed /home/mapir/gonzalo_ws/build/sancho_navigation
+running symlink_data
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/ament_index
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/resource/sancho_navigation -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/ament_index/resource_index/packages
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/package.xml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/launch/simulation.launch.py -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/launch/slam.launch.py -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/launch/navigation.launch.py -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/launch/real_navigation.launch.py -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/launch
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/config/mapper_params_real.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/config/nav2_params_sim.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/config/mapper_params_online_async.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/config/greenhouse_config.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/config/nav2_params_real.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/config
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/worlds/greenhouse.world -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/worlds
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/maps/prueba.pgm -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/maps/greenhouse_raw.pgm -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/maps/greenhouse_raw.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/maps/prueba.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/maps/greenhouse_map.yaml -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/maps/greenhouse_map.pgm -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/maps
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/test_images/test1.JPG -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/test_images/test4.JPG -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/test_images/test3.JPG -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/test_images/test2.JPG -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/test_images
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/best_model_optimized.pth -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/tomato_model.pth -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/bush_2/model.sdf -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/bush_2/model.config -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2
+creating /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/bush_2/meshes/Green_Le.jpg -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/bush_2/meshes/bush_2.obj -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
+symbolically linking /home/mapir/gonzalo_ws/build/sancho_navigation/models/bush_2/meshes/bush_2.mtl -> /home/mapir/gonzalo_ws/install/sancho_navigation/share/sancho_navigation/models/bush_2/meshes
