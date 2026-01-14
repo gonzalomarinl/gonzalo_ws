@@ -8,12 +8,12 @@ amcl:
     alpha5: 0.2
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
-    scan_topic: "scan"
+    scan_topic: "scan_1st"      # <--- ACTUALIZADO
     global_frame_id: "map"
     min_particles: 500
     max_particles: 2000
     set_initial_pose: true
-    initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0} # Ajusta esto a donde inicie tu robot real
+    initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0} # Origen de spawn
     transform_tolerance: 2.0
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
 
@@ -100,44 +100,17 @@ controller_server:
       xy_goal_tolerance: 0.25
       yaw_goal_tolerance: 0.25
     FollowPath:
-      plugin: "dwb_core::DWBLocalPlanner"
-      debug_trajectory_details: True
-      min_vel_x: 0.0
-      min_vel_y: 0.0
-      max_vel_x: 0.22
-      max_vel_y: 0.0
-      max_vel_theta: 1.0
-      min_speed_xy: 0.0
-      max_speed_xy: 0.22
-      min_speed_theta: 0.0
-      accel_lim_x: 2.5
-      accel_lim_y: 0.0
-      accel_lim_theta: 3.2
-      decel_lim_x: -2.5
-      decel_lim_y: 0.0
-      decel_lim_theta: -3.2
-      vx_samples: 20
-      vy_samples: 5
-      vtheta_samples: 20
-      sim_time: 1.7
-      linear_granularity: 0.05
-      angular_granularity: 0.025
-      transform_tolerance: 0.2
-      xy_goal_tolerance: 0.25
-      trans_stopped_velocity: 0.25
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 32.0
-      GoalDist.scale: 24.0
-      RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
+      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController" # <--- ACTUALIZADO
+      desired_linear_vel: 0.15
+      lookahead_dist: 0.4
+      min_lookahead_dist: 0.3
+      max_lookahead_dist: 0.6
+      lookahead_time: 1.5
+      rotate_to_heading_angular_vel: 0.5
+      transform_tolerance: 0.1
+      use_velocity_scaled_lookahead_dist: true
+      min_approach_linear_velocity: 0.05
+      use_collision_detection: true
       
 local_costmap:
   local_costmap:
@@ -169,7 +142,7 @@ local_costmap:
         mark_threshold: 0
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /scan_1st      # <--- ACTUALIZADO
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -195,7 +168,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /scan_1st      # <--- ACTUALIZADO
           max_obstacle_height: 2.0
           clearing: True
           marking: True
