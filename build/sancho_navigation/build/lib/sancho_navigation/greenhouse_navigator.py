@@ -7,8 +7,9 @@ import yaml
 import os
 import time
 import cv2
-import threading
+import threading  # <--- IMPORTANTE: Necesario para el executor
 from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor # <--- IMPORTANTE
 from geometry_msgs.msg import PoseStamped, Quaternion, Point
 from visualization_msgs.msg import Marker, MarkerArray
 from sensor_msgs.msg import Image
@@ -17,18 +18,16 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from rclpy.qos import QoSProfile, DurabilityPolicy
 
 # --- IMPORTAMOS TU MÉDICO DE PLANTAS ---
-# Asegúrate de que plant_doctor.py está en la misma carpeta o instalado como paquete
 try:
     from sancho_navigation.plant_doctor import analyze_plant
 except ImportError:
-    # Fallback por si ejecutas localmente sin instalar el paquete completo
     try:
         from plant_doctor import analyze_plant
     except:
         print("⚠️ ADVERTENCIA: No se encuentra 'plant_doctor.py'. La IA no funcionará.")
         def analyze_plant(img, name, mode): pass
 
-# --- CLASE PARA GESTIONAR LA CÁMARA (NUEVO) ---
+# --- CLASE PARA GESTIONAR LA CÁMARA ---
 class CameraNode(Node):
     def __init__(self):
         super().__init__('camera_subscriber')
@@ -36,8 +35,6 @@ class CameraNode(Node):
         self.latest_image = None
         self.image_received = False
         
-        # Suscripción al topic de la cámara de Gazebo
-        # Ajusta '/camera/image_raw' si tu robot usa otro topic
         self.subscription = self.create_subscription(
             Image,
             '/camera/image_raw',
@@ -46,7 +43,6 @@ class CameraNode(Node):
 
     def listener_callback(self, msg):
         try:
-            # Convertimos de mensaje ROS a imagen OpenCV
             self.latest_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             self.image_received = True
         except Exception as e:
@@ -55,7 +51,7 @@ class CameraNode(Node):
     def get_image(self):
         return self.latest_image if self.image_received else None
 
-# --- CLASE VISUALIZADOR (BOLAS VERDES) ---
+# --- CLASE VISUALIZADOR ---
 class RouteVisualizer(Node):
     def __init__(self, route_poses):
         super().__init__('mission_visualizer')
@@ -93,7 +89,7 @@ class RouteVisualizer(Node):
 class GreenhouseMission:
     def __init__(self, mode, camera_node):
         self.mode = mode
-        self.camera_node = camera_node # Referencia al nodo de cámara
+        self.camera_node = camera_node
         self.config_path = os.path.expanduser('~/gonzalo_ws/src/sancho_navigation/config/greenhouse_config.yaml')
         self.save_dir = os.path.expanduser('~/gonzalo_ws/plant_photos_raw')
         
@@ -147,8 +143,6 @@ class GreenhouseMission:
         yaw_A = row_yaw - (math.pi / 2.0)
         yaw_B = row_yaw + (math.pi / 2.0)
 
-        print(f"📐 Generando ruta: {num_rows} filas | Longitud: {length:.2f}m")
-
         for i in range(num_rows):
             cx = p1[0] + (nx * row_sep * i)
             cy = p1[1] + (ny * row_sep * i)
@@ -186,29 +180,25 @@ class GreenhouseMission:
     def perform_detection_logic(self, waypoint_idx):
         print(f"🛑 PARADA {waypoint_idx}: Iniciando protocolo de inspección...", flush=True)
         
-        # 1. Obtener imagen de la cámara
+        # Le damos un segundo para asegurar que el buffer tiene imágenes frescas
+        time.sleep(1.0)
+            
         frame = self.camera_node.get_image()
         
         if frame is None:
-            print("⚠️ CÁMARA NO DISPONIBLE. Usando imagen negra de prueba.", flush=True)
-            # Crear imagen negra si falla la cámara para no romper el programa
+            print("⚠️ CÁMARA NO DISPONIBLE. Usando imagen negra.", flush=True)
             import numpy as np
             frame = np.zeros((480, 640, 3), dtype=np.uint8)
         else:
-            print("📸 Captura de cámara recibida correctamente.", flush=True)
+            print("📸 Captura tomada.", flush=True)
 
-        # 2. Guardar la imagen cruda (evidencia)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         filename = f"captura_pt{waypoint_idx}_{timestamp}.jpg"
         full_path = os.path.join(self.save_dir, filename)
         cv2.imwrite(full_path, frame)
         
-        # 3. LLAMAR AL DOCTOR (Aquí es donde ocurre la magia de la IA)
-        # Esto llamará a tu script plant_doctor.py, que tiene el time.sleep(10)
-        # simulando el procesamiento de la red neuronal.
         analyze_plant(full_path, f"Punto_{waypoint_idx}", self.mode)
-        
-        print(f"✅ Inspección del Punto {waypoint_idx} finalizada. Continuando ruta.\n", flush=True)
+        print(f"✅ Inspección del Punto {waypoint_idx} finalizada.\n", flush=True)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -217,56 +207,56 @@ def main():
     
     rclpy.init()
     
-    # 1. Iniciamos el nodo de cámara en un hilo separado para que siempre tenga la última foto
+    # 1. Creamos el Navegador y el Nodo de Cámara
+    navigator = BasicNavigator()
     camera_node = CameraNode()
-    cam_thread = threading.Thread(target=rclpy.spin, args=(camera_node,), daemon=True)
-    cam_thread.start()
-    print("📷 Nodo de cámara iniciado y escuchando...")
-
-    # 2. Preparar Misión
+    
+    # 2. Configuración del MultiThreadedExecutor
+    # Esto permite que la cámara y el navegador funcionen en paralelo sin bloquearse
+    executor = MultiThreadedExecutor()
+    executor.add_node(camera_node)
+    executor.add_node(navigator) # El navegador es internamente un nodo
+    
+    # Lanzamos el executor en un hilo aparte
+    spin_thread = threading.Thread(target=executor.spin, daemon=True)
+    spin_thread.start()
+    
+    # 3. Preparar Misión
     mission = GreenhouseMission(args.mode, camera_node)
     route = mission.generate_snake_route()
     
-    # 3. Visualizador
+    # 4. Visualizador (también lo añadimos al executor)
     viz_node = RouteVisualizer(route)
-    viz_node.publish_markers() # Publicar una vez
-    print("👀 Visualizador de ruta activado (Bolas Verdes).")
+    executor.add_node(viz_node)
+    viz_node.publish_markers() 
 
-    # 4. Nav2
-    navigator = BasicNavigator()
+    # 5. Nav2 Activación
     print("⏳ Esperando a Nav2...", flush=True)
     navigator.waitUntilNav2Active()
 
     print(f"✅ Ruta calculada: {len(route)} paradas. ¡Despegamos!", flush=True)
     
-    # 5. EJECUCIÓN
+    # 6. Bucle Principal
     for i, goal_pose in enumerate(route):
-        print(f"🚀 [{i+1}/{len(route)}] Yendo al objetivo...", flush=True)
+        print(f"🚀 [{i+1}/{len(route)}] Navegando...", flush=True)
         
-        # Refrescamos visualización
         viz_node.publish_markers()
-        
         navigator.goToPose(goal_pose)
 
+        # Ya no necesitamos llamar a spin_once manualmente, el hilo secundario lo hace
         while not navigator.isTaskComplete():
             pass
 
         result = navigator.getResult()
         if result == TaskResult.SUCCEEDED:
-            # --- AQUÍ OCURRE LA DETECCIÓN REAL ---
             mission.perform_detection_logic(i+1)
         else:
             print(f"❌ Fallo en punto {i+1}. Abortando.")
-            navigator.lifecycleShutdown()
-            viz_node.destroy_node()
-            camera_node.destroy_node()
-            exit(1)
+            break
 
     print("🏁 ¡MISIÓN COMPLETADA!", flush=True)
     navigator.lifecycleShutdown()
-    viz_node.destroy_node()
-    camera_node.destroy_node()
-    exit(0)
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
