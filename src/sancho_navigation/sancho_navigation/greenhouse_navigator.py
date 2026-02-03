@@ -82,7 +82,7 @@ def main():
         # Hacemos 3 capturas de prueba
         for i in range(1, 4):
             mission.perform_detection_logic(i)
-            time.sleep(3)
+            time.sleep(30)
     except KeyboardInterrupt: pass
     
     node.destroy_node()

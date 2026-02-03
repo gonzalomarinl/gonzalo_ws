@@ -64,7 +64,7 @@ def analyze_plant(image_path, point_name, mode='sim'):
     h, w, _ = raw_img.shape
     # Definimos un cuadro de 400x400 píxeles en el centro de la imagen
     # Ajustamos y para que capture un poco más abajo (donde suelen estar las hojas)
-    cx, cy = w // 2, (h // 2) + 50
+    cx, cy = w // 2, (h // 2) + 80    
     size = 150 # Mitad del tamaño del cuadro (total 400px)
     crop_img = raw_img[cy-size:cy+size, cx-size:cx+size]
     
