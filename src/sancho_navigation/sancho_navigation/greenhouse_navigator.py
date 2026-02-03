@@ -28,16 +28,17 @@ except ImportError:
 
 # --- CLASE PARA GESTIONAR LA CÁMARA ---
 class CameraNode(Node):
-    def __init__(self):
+    def __init__(self, camera_topic): # <--- AHORA RECIBE EL TOPIC COMO PARÁMETRO
         super().__init__('camera_subscriber')
         self.bridge = CvBridge()
         self.latest_image = None
         self.image_received = False
         
-        # Suscripción al topic de la cámara
+        # Suscripción al topic de la cámara (Dinámico)
+        print(f"📷 Suscribiéndose al tópico: {camera_topic}")
         self.subscription = self.create_subscription(
             Image,
-            '/camera/image_raw',
+            camera_topic, # <--- SE USA EL TOPIC PASADO DESDE EL MAIN
             self.listener_callback,
             10)
 
@@ -213,8 +214,12 @@ def main():
     
     rclpy.init()
     
-    # 1. Crear nodo de cámara (SIN HILO / SIN THREAD)
-    camera_node = CameraNode()
+    # --- CAMBIO REALIZADO: SELECCIÓN DEL TÓPICO ---
+    # Si es modo real usamos sancho_camera/image_rec, sino el estándar
+    camera_topic = 'sancho_camera/image_rec' if args.mode == 'real' else '/camera/image_raw'
+    
+    # 1. Crear nodo de cámara (pasando el tópico elegido)
+    camera_node = CameraNode(camera_topic)
     
     # 2. Preparar Misión
     mission = GreenhouseMission(args.mode, camera_node)
@@ -248,8 +253,6 @@ def main():
         while not navigator.isTaskComplete():
             # Le damos un pequeño tiempo a la cámara para procesar mensajes
             rclpy.spin_once(camera_node, timeout_sec=0.05)
-            # También podríamos chequear feedback aquí
-            # feedback = navigator.getFeedback()
 
         result = navigator.getResult()
         if result == TaskResult.SUCCEEDED:
