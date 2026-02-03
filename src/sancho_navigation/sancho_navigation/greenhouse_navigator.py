@@ -72,7 +72,7 @@ def main():
     rclpy.init()
     
     # Tópico real corregido
-    camera_topic = '/sancho_camera/image_raw' if args.mode == 'real' else '/camera/image_raw'
+    camera_topic = '/astra_camera/camera/color/image_raw' if args.mode == 'real' else '/camera/image_raw'
     
     node = CameraNode(camera_topic)
     mission = GreenhouseMission(args.mode, node)
