@@ -23,10 +23,8 @@ CLASSES = [
 def load_model_robust(model_path, device):
     try:
         checkpoint = torch.load(model_path, map_location=device)
-        # Si es un state_dict (OrderedDict)
         if isinstance(checkpoint, dict) or "OrderedDict" in str(type(checkpoint)):
             from torchvision import models
-            # Ajustamos a la arquitectura que usaste (ejemplo ResNet18)
             model = models.resnet18(weights=None) 
             model.fc = torch.nn.Linear(model.fc.in_features, len(CLASSES))
             model.load_state_dict(checkpoint)
@@ -44,6 +42,8 @@ try:
     MODEL_PATH = os.path.join(package_share_dir, 'models', 'best_model_optimized.pth')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = load_model_robust(MODEL_PATH, device)
+    if model:
+        print(f"🤖 IA: Modelo cargado correctamente.")
 except:
     model = None
 
@@ -55,41 +55,52 @@ preprocess = transforms.Compose([
 ])
 
 def analyze_plant(image_path, point_name, mode='sim'):
-    final_image_to_process = None
+    raw_img = cv2.imread(image_path)
+    if raw_img is None:
+        return False, "Error de Lectura", 0.0
+
+    # --- ZOOM DIGITAL (RECORTE CENTRAL) ---
+    # La planta se ve pequeña en el centro. Recortamos para que ocupe más espacio.
+    h, w, _ = raw_img.shape
+    # Definimos un cuadro de 400x400 píxeles en el centro de la imagen
+    # Ajustamos y para que capture un poco más abajo (donde suelen estar las hojas)
+    cx, cy = w // 2, h // 2
+    size = 200 # Mitad del tamaño del cuadro (total 400px)
+    crop_img = raw_img[cy-size:cy+size, cx-size:cx+size]
+    
+    # Si por algún motivo el recorte falla, usamos la imagen original
+    final_image_to_process = crop_img if crop_img.size > 0 else raw_img
+    # --------------------------------------
+
     diagnostico = "Healthy"
     confianza = 0.0
 
-    if mode == 'sim':
-        # ... (Lógica de simulación omitida por brevedad, se mantiene igual) ...
-        diagnostico = "Healthy"; confianza = 90.0
+    if model is not None:
+        try:
+            img_rgb = cv2.cvtColor(final_image_to_process, cv2.COLOR_BGR2RGB)
+            input_tensor = preprocess(img_rgb).unsqueeze(0).to(device)
+            with torch.no_grad():
+                output = model(input_tensor)
+                probs = torch.nn.functional.softmax(output[0], dim=0)
+            conf, index = torch.max(probs, 0)
+            diagnostico = CLASSES[index.item()]
+            confianza = conf.item() * 100
+        except Exception as e:
+            print(f"Error inferencia: {e}")
+            diagnostico = "Error IA"
     else:
-        final_image_to_process = cv2.imread(image_path)
-        if final_image_to_process is None: return False, "Error Lectura"
-        
-        if model is not None:
-            try:
-                img_rgb = cv2.cvtColor(final_image_to_process, cv2.COLOR_BGR2RGB)
-                input_tensor = preprocess(img_rgb).unsqueeze(0).to(device)
-                with torch.no_grad():
-                    output = model(input_tensor)
-                    probs = torch.nn.functional.softmax(output[0], dim=0)
-                conf, index = torch.max(probs, 0)
-                diagnostico = CLASSES[index.item()]
-                confianza = conf.item() * 100
-            except: diagnostico = "Error IA"
-        else:
-            diagnostico = "Healthy"; confianza = 95.0
+        diagnostico = "Healthy"
+        confianza = 95.0
 
     es_anomalia = (diagnostico != "Healthy")
     if es_anomalia:
-        print(f"\n🚨 ¡ALERTA! {point_name}: {diagnostico.upper()} ({confianza:.1f}%)")
         save_evidence(final_image_to_process, point_name, diagnostico, confianza)
-    return es_anomalia, diagnostico
+    
+    return es_anomalia, diagnostico, confianza
 
 def save_evidence(image, point_name, diagnostico, confianza):
     save_dir = os.path.expanduser('~/gonzalo_ws/plant_photos_results')
     os.makedirs(save_dir, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"ALERTA_{point_name}_{diagnostico}_{timestamp}.jpg"
-    if image is not None:
-        cv2.imwrite(os.path.join(save_dir, filename), image)
+    cv2.imwrite(os.path.join(save_dir, filename), image)
